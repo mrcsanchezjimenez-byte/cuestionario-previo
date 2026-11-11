@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cuestionario previo</title>
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --card: #ffffff;
+    --ink: #1d1d1b;
+    --muted: #5d5b55;
+    --line: #dcd8cf;
+    --accent: #1f5f4a;
+    --accent-ink: #ffffff;
+    --accent-soft: #e4efe9;
+    --focus: #c47a1d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171a19;
+      --card: #202423;
+      --ink: #eeece7;
+      --muted: #a9a69e;
+      --line: #3a3f3d;
+      --accent: #5fb894;
+      --accent-ink: #0d1f18;
+      --accent-soft: #233a31;
+      --focus: #e0a24f;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 19px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  header h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 12px; }
+  header p { margin: 0 0 12px; }
+  .note {
+    background: var(--accent-soft);
+    border-left: 5px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin: 20px 0 8px;
+  }
+  .note ul { margin: 6px 0 0; padding-left: 22px; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+    margin-top: 22px;
+  }
+  section > h2 { font-size: 1.35rem; margin: 0 0 4px; }
+  section > h2 .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.7em; height: 1.7em; border-radius: 50%;
+    background: var(--accent); color: var(--accent-ink);
+    font-size: .8em; margin-right: 8px; vertical-align: 2px;
+  }
+  section > .intro { color: var(--muted); margin: 0 0 8px; }
+  fieldset { border: 0; padding: 0; margin: 20px 0 0; }
+  legend { font-weight: 650; padding: 0; margin-bottom: 8px; }
+  .hint { display: block; font-weight: 400; color: var(--muted); font-size: .9em; }
+  .opts { display: grid; gap: 8px; }
+  .opts.cols { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  label.opt {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 11px 14px; border: 1px solid var(--line); border-radius: 10px;
+    cursor: pointer; background: var(--card);
+  }
+  label.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+  label.opt input { width: 22px; height: 22px; margin: 3px 0 0; flex: none; accent-color: var(--accent); }
+  label.opt small { display: block; color: var(--muted); font-size: .86em; }
+  textarea, input[type="text"] {
+    width: 100%; font: inherit; color: var(--ink); background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .other { margin-top: 8px; }
+  .send { text-align: center; }
+  .send p { margin: 0 0 16px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font: inherit; font-weight: 650; border-radius: 12px; cursor: pointer;
+    padding: 16px 26px; border: 2px solid var(--accent); min-width: 260px; margin: 6px;
+  }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); }
+  .btn.secondary { background: transparent; color: var(--accent); }
+  #status { min-height: 1.5em; margin-top: 12px; font-weight: 600; color: var(--accent); }
+  footer { color: var(--muted); font-size: .85em; text-align: center; margin-top: 28px; }
+  @media (max-width: 480px) {
+    body { font-size: 18px; }
+    header h1 { font-size: 1.6rem; }
+    section { padding: 18px 14px; }
+    .btn { width: 100%; min-width: 0; margin: 6px 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Antes de vernos: cuéntanos cómo trabajas</h1>
+    <p>Queremos llegar a la reunión con propuestas concretas que te ahorren tiempo, no solo con lo de ordenar el ordenador. Con estas respuestas podremos pensar en paneles, avisos y herramientas hechas a tu medida.</p>
+    <div class="note">
+      <strong>Antes de empezar:</strong>
+      <ul>
+        <li>Son unos 10 minutos. Casi todo es marcar casillas.</li>
+        <li><strong>No necesitamos importes, nombres ni datos concretos</strong> de tus inversiones o inquilinos. Solo saber qué tipo de cosas gestionas y cómo.</li>
+        <li>Nada se guarda en internet. Al terminar, pulsas el botón verde del final y nos lo mandas por WhatsApp.</li>
+        <li>Si lo dejas a medias, lo marcado se queda guardado en este dispositivo.</li>
+        <li>Lo que no sepas o no aplique, déjalo en blanco.</li>
+      </ul>
+    </div>
+  </header>
+
+  <form id="f" autocomplete="off">
+
+    <section data-section="Tu día a día">
+      <h2><span class="n">1</span>Tu día a día</h2>
+      <fieldset data-q="A qué te dedicas">
+        <legend>¿A qué te dedicas principalmente?<span class="hint">En una frase, sin detalles.</span></legend>
+        <input type="text" name="dedicacion">
+      </fieldset>
+      <fieldset data-q="Horas semanales de papeleo y gestión">
+        <legend>¿Cuántas horas a la semana dedicas a papeleo, cuentas y gestión?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="horas" value="Menos de 2">Menos de 2</label>
+          <label class="opt"><input type="radio" name="horas" value="De 2 a 5">De 2 a 5</label>
+          <label class="opt"><input type="radio" name="horas" value="De 5 a 10">De 5 a 10</label>
+          <label class="opt"><input type="radio" name="horas" value="Más de 10">Más de 10</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Dispositivos">
+        <legend>¿Qué usas habitualmente?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="Ordenador Windows">Ordenador Windows</label>
+          <label class="opt"><input type="checkbox" value="Ordenador Mac">Ordenador Mac</label>
+          <label class="opt"><input type="checkbox" value="Móvil Android">Móvil Android</label>
+          <label class="opt"><input type="checkbox" value="iPhone">iPhone</label>
+          <label class="opt"><input type="checkbox" value="Tablet / iPad">Tablet / iPad</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Dónde guarda sus archivos">
+        <legend>¿Dónde tienes guardados tus documentos?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="En el ordenador">En el ordenador</label>
+          <label class="opt"><input type="checkbox" value="Disco duro externo">Disco duro externo</label>
+          <label class="opt"><input type="checkbox" value="OneDrive">OneDrive</label>
+          <label class="opt"><input type="checkbox" value="Google Drive">Google Drive</label>
+          <label class="opt"><input type="checkbox" value="Dropbox / iCloud">Dropbox / iCloud</label>
+          <label class="opt"><input type="checkbox" value="En el correo electrónico">En el correo electrónico</label>
+          <label class="opt"><input type="checkbox" value="En papel">En papel</label>
+        </div>
+      </fieldset>
+    </section>
+
+    <section data-section="Inmuebles en alquiler">
+      <h2><span class="n">2</span>Inmuebles en alquiler</h2>
+      <p class="intro">Solo para hacernos una idea del volumen y de lo que te da trabajo.</p>
+      <fieldset data-q="Número aproximado de inmuebles">
+        <legend>¿Cuántos inmuebles tienes alquilados, más o menos?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="num_inm" value="1 o 2">1 o 2</label>
+          <label class="opt"><input type="radio" name="num_inm" value="De 3 a 5">De 3 a 5</label>
+          <label class="opt"><input type="radio" name="num_inm" value="De 6 a 10">De 6 a 10</label>
+          <label class="opt"><input type="radio" name="num_inm" value="Más de 10">Más de 10</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Tipo de alquiler">
+        <legend>¿Qué tipo de alquiler?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="Vivienda de larga duración">Vivienda de larga duración</label>
+          <label class="opt"><input type="checkbox" value="Temporada (meses)">Temporada (meses)</label>
+          <label class="opt"><input type="checkbox" value="Turístico / vacacional">Turístico / vacacional</label>
+          <label class="opt"><input type="checkbox" value="Por habitaciones">Por habitaciones</label>
+          <label class="opt"><input type="checkbox" value="Locales u oficinas">Locales u oficinas</label>
+          <label class="opt"><input type="checkbox" value="Garajes o trasteros">Garajes o trasteros</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Quién lo gestiona">
+        <legend>¿Quién lleva la gestión?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="gestion" value="Yo solo">Yo solo</label>
+          <label class="opt"><input type="radio" name="gestion" value="Con ayuda de un familiar">Con ayuda de un familiar</label>
+          <label class="opt"><input type="radio" name="gestion" value="Una agencia o administrador">Una agencia o administrador</label>
+          <label class="opt"><input type="radio" name="gestion" value="Mixto: unos yo y otros la agencia">Mixto: unos yo y otros la agencia</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Cómo lleva hoy el control">
+        <legend>¿Cómo llevas hoy el control?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="Hoja de Excel">Hoja de Excel</label>
+          <label class="opt"><input type="checkbox" value="Libreta o papel">Libreta o papel</label>
+          <label class="opt"><input type="checkbox" value="Una aplicación o programa">Una aplicación o programa</label>
+          <label class="opt"><input type="checkbox" value="Me lo lleva la gestoría">Me lo lleva la gestoría</label>
+          <label class="opt"><input type="checkbox" value="Lo llevo de cabeza">Lo llevo de cabeza</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Tareas de alquiler que más pesan">
+        <legend>¿Qué tareas te quitan más tiempo o te preocupan?<span class="hint">Marca todas las que quieras.</span></legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" value="Comprobar que han pagado todos los inquilinos">Comprobar que han pagado todos los inquilinos</label>
+          <label class="opt"><input type="checkbox" value="Retrasos e impagos">Retrasos e impagos</label>
+          <label class="opt"><input type="checkbox" value="Vencimientos y renovaciones de contratos">Vencimientos y renovaciones de contratos</label>
+          <label class="opt"><input type="checkbox" value="Subidas anuales de renta (IPC)">Subidas anuales de renta (IPC)</label>
+          <label class="opt"><input type="checkbox" value="Fianzas y su depósito">Fianzas y su depósito</label>
+          <label class="opt"><input type="checkbox" value="Averías, reparaciones y proveedores">Averías, reparaciones y proveedores</label>
+          <label class="opt"><input type="checkbox" value="Gastos fijos: comunidad, IBI, seguros, suministros">Gastos fijos: comunidad, IBI, seguros, suministros</label>
+          <label class="opt"><input type="checkbox" value="Comunicación con inquilinos">Comunicación con inquilinos</label>
+          <label class="opt"><input type="checkbox" value="Buscar y seleccionar inquilinos">Buscar y seleccionar inquilinos</label>
+          <label class="opt"><input type="checkbox" value="Reservas, entradas, salidas y limpiezas">Reservas, entradas, salidas y limpiezas</label>
+          <label class="opt"><input type="checkbox" value="Preparar los papeles para la renta o la gestoría">Preparar los papeles para la renta o la gestoría</label>
+          <label class="opt"><input type="checkbox" value="Saber cuánto me renta de verdad cada inmueble">Saber cuánto me renta de verdad cada inmueble</label>
+        </div>
+        <input class="other" type="text" data-other placeholder="Otra (escríbela aquí)">
+      </fieldset>
+    </section>
+
+    <section data-section="Otras inversiones">
+      <h2><span class="n">3</span>Otras inversiones</h2>
+      <p class="intro">Sin cantidades ni detalles: solo qué tipo de cosas son, para saber qué tendría sentido mostrar en un panel.</p>
+      <fieldset data-q="Tipos de inversión">
+        <legend>¿Qué otros tipos de inversión tienes?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="Inmuebles en reforma o promoción">Inmuebles en reforma o promoción</label>
+          <label class="opt"><input type="checkbox" value="Solares o terrenos">Solares o terrenos</label>
+          <label class="opt"><input type="checkbox" value="Participación en empresas">Participación en empresas</label>
+          <label class="opt"><input type="checkbox" value="Bolsa, fondos o planes">Bolsa, fondos o planes</label>
+          <label class="opt"><input type="checkbox" value="Depósitos o renta fija">Depósitos o renta fija</label>
+          <label class="opt"><input type="checkbox" value="Préstamos a terceros">Préstamos a terceros</label>
+        </div>
+        <input class="other" type="text" data-other placeholder="Otro tipo (escríbelo aquí)">
+      </fieldset>
+      <fieldset data-q="Dificultades con las inversiones">
+        <legend>¿Qué te cuesta más con todo esto?</legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" value="Tener una visión de conjunto de todo">Tener una visión de conjunto de todo</label>
+          <label class="opt"><input type="checkbox" value="Recordar fechas clave y vencimientos">Recordar fechas clave y vencimientos</label>
+          <label class="opt"><input type="checkbox" value="Encontrar los documentos de cada inversión">Encontrar los documentos de cada inversión</label>
+          <label class="opt"><input type="checkbox" value="Saber cómo evoluciona cada una">Saber cómo evoluciona cada una</label>
+          <label class="opt"><input type="checkbox" value="Comparar rentabilidades">Comparar rentabilidades</label>
+          <label class="opt"><input type="checkbox" value="Que otra persona pueda entenderlo si un día hace falta">Que otra persona pueda entenderlo si un día hace falta</label>
+        </div>
+      </fieldset>
+    </section>
+
+    <section data-section="Sociedades y papeleo">
+      <h2><span class="n">4</span>Sociedades y papeleo</h2>
+      <fieldset data-q="Sociedades">
+        <legend>¿Tienes sociedades?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="soc" value="No">No</label>
+          <label class="opt"><input type="radio" name="soc" value="Una">Una</label>
+          <label class="opt"><input type="radio" name="soc" value="Varias">Varias</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Gestoría">
+        <legend>¿Trabajas con gestoría o asesor?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="gestoria" value="Sí, para todo">Sí, para todo</label>
+          <label class="opt"><input type="radio" name="gestoria" value="Sí, solo impuestos">Sí, solo impuestos</label>
+          <label class="opt"><input type="radio" name="gestoria" value="No">No</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Papeleo que más pesa">
+        <legend>¿Qué papeleo te pesa más?</legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" value="Facturas recibidas y emitidas">Facturas recibidas y emitidas</label>
+          <label class="opt"><input type="checkbox" value="Movimientos de varios bancos">Movimientos de varios bancos</label>
+          <label class="opt"><input type="checkbox" value="Correo electrónico acumulado">Correo electrónico acumulado</label>
+          <label class="opt"><input type="checkbox" value="Fechas de impuestos y pagos">Fechas de impuestos y pagos</label>
+          <label class="opt"><input type="checkbox" value="Redactar cartas, contratos o escritos">Redactar cartas, contratos o escritos</label>
+          <label class="opt"><input type="checkbox" value="Ordenar y encontrar documentos">Ordenar y encontrar documentos</label>
+        </div>
+        <input class="other" type="text" data-other placeholder="Otro (escríbelo aquí)">
+      </fieldset>
+    </section>
+
+    <section data-section="Qué te gustaría tener">
+      <h2><span class="n">5</span>Qué te gustaría tener</h2>
+      <p class="intro">Son ideas de lo que podemos montarte. Marca las que te llamen la atención; no te compromete a nada.</p>
+      <fieldset data-q="Herramientas que le interesan">
+        <legend>¿Cuáles te serían útiles?</legend>
+        <div class="opts">
+          <label class="opt"><input type="checkbox" value="Panel de alquileres"><span>Panel de alquileres<small>De un vistazo: quién ha pagado, quién debe, qué contratos vencen pronto.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Calendario de vencimientos"><span>Calendario de vencimientos<small>Contratos, seguros, IBI, impuestos, revisiones… todo en un sitio.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Avisos automáticos"><span>Avisos automáticos<small>Te llega un aviso al móvil o al correo antes de cada fecha importante.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Panel de patrimonio"><span>Panel de patrimonio<small>Visión global de inmuebles e inversiones y cómo evolucionan.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Rentabilidad por inmueble"><span>Rentabilidad por inmueble<small>Ingresos menos gastos de cada uno, mes a mes y por año.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Archivo ordenado con buscador"><span>Archivo ordenado con buscador<small>Cada documento en su sitio y fácil de encontrar.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Resumen mensual automático"><span>Resumen mensual automático<small>Un informe corto cada mes con lo importante.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Paquete para la gestoría"><span>Paquete para la gestoría<small>Los papeles del trimestre o de la renta preparados y ordenados.</small></span></label>
+          <label class="opt"><input type="checkbox" value="Ayudante de redacción"><span>Ayudante de redacción<small>Contratos, cartas a inquilinos, reclamaciones, correos.</small></span></label>
+        </div>
+        <input class="other" type="text" data-other placeholder="Otra idea (escríbela aquí)">
+      </fieldset>
+      <fieldset data-q="Dónde consultarlo">
+        <legend>¿Dónde te gustaría consultarlo?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="radio" name="donde" value="En el ordenador">En el ordenador</label>
+          <label class="opt"><input type="radio" name="donde" value="En el móvil">En el móvil</label>
+          <label class="opt"><input type="radio" name="donde" value="En los dos">En los dos</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Quién más debería verlo">
+        <legend>¿Alguien más debería poder verlo?</legend>
+        <div class="opts cols">
+          <label class="opt"><input type="checkbox" value="Solo yo">Solo yo</label>
+          <label class="opt"><input type="checkbox" value="Familia">Familia</label>
+          <label class="opt"><input type="checkbox" value="Socio">Socio</label>
+          <label class="opt"><input type="checkbox" value="Gestoría">Gestoría</label>
+          <label class="opt"><input type="checkbox" value="Empleado o colaborador">Empleado o colaborador</label>
+        </div>
+      </fieldset>
+    </section>
+
+    <section data-section="Tu experiencia con la IA">
+      <h2><span class="n">6</span>Tu experiencia con la IA</h2>
+      <fieldset data-q="Comodidad con la tecnología">
+        <legend>¿Cómo te manejas con el ordenador y las aplicaciones?</legend>
+        <div class="opts">
+          <label class="opt"><input type="radio" name="tec" value="Me cuesta, prefiero que me lo dejen hecho">Me cuesta, prefiero que me lo dejen hecho</label>
+          <label class="opt"><input type="radio" name="tec" value="Me apaño si me lo explican paso a paso">Me apaño si me lo explican paso a paso</label>
+          <label class="opt"><input type="radio" name="tec" value="Me manejo bien y me gusta trastear">Me manejo bien y me gusta trastear</label>
+        </div>
+      </fieldset>
+      <fieldset data-q="Lo que mejor le ha funcionado con la IA">
+        <legend>¿Para qué te ha sido útil la IA hasta ahora?</legend>
+        <textarea name="ia_bien"></textarea>
+      </fieldset>
+      <fieldset data-q="Lo que le ha frustrado de la IA">
+        <legend>¿Qué te ha frustrado o no te ha salido como esperabas?</legend>
+        <textarea name="ia_mal"></textarea>
+      </fieldset>
+    </section>
+
+    <section data-section="Lo más importante">
+      <h2><span class="n">7</span>Lo más importante</h2>
+      <fieldset data-q="Tarea que se quitaría mañana">
+        <legend>Si mañana pudieras quitarte de encima una sola tarea, ¿cuál sería?</legend>
+        <textarea name="top1"></textarea>
+      </fieldset>
+      <fieldset data-q="Algo más">
+        <legend>¿Algo más que quieras contarnos antes de la reunión?</legend>
+        <textarea name="extra"></textarea>
+      </fieldset>
+    </section>
+
+    <section class="send">
+      <h2>¿Listo?</h2>
+      <p>Pulsa el botón verde. Se abrirá WhatsApp con tus respuestas ya escritas: elige nuestro chat y dale a enviar.</p>
+      <button type="button" class="btn primary" id="wa">Enviar por WhatsApp</button>
+      <br>
+      <button type="button" class="btn secondary" id="copy">Copiar respuestas</button>
+      <div id="status" role="status"></div>
+    </section>
+  </form>
+
+  <footer>Tus respuestas no se guardan en ningún servidor: solo en este dispositivo hasta que las envías.</footer>
+</main>
+
+<script>
+(function () {
+  var form = document.getElementById('f');
+  var KEY = 'cuestionario-previo-v1';
+  var fields = Array.prototype.slice.call(form.querySelectorAll('input, textarea'));
+
+  function save() {
+    var data = fields.map(function (el) {
+      return (el.type === 'checkbox' || el.type === 'radio') ? el.checked : el.value;
+    });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+  }
+  function load() {
+    var raw = null;
+    try { raw = localStorage.getItem(KEY); } catch (e) {}
+    if (!raw) return;
+    try {
+      var data = JSON.parse(raw);
+      if (!Array.isArray(data) || data.length !== fields.length) return;
+      fields.forEach(function (el, i) {
+        if (el.type === 'checkbox' || el.type === 'radio') el.checked = !!data[i];
+        else el.value = data[i] || '';
+      });
+    } catch (e) {}
+  }
+  load();
+  form.addEventListener('input', save);
+  form.addEventListener('change', save);
+
+  function summary() {
+    var out = ['*Cuestionario previo a la reunión*'];
+    form.querySelectorAll('section[data-section]').forEach(function (sec) {
+      var lines = [];
+      sec.querySelectorAll('fieldset[data-q]').forEach(function (fs) {
+        var vals = [];
+        fs.querySelectorAll('input[type=checkbox]:checked, input[type=radio]:checked').forEach(function (el) {
+          vals.push(el.value);
+        });
+        fs.querySelectorAll('input[type=text], textarea').forEach(function (el) {
+          var v = el.value.trim();
+          if (v) vals.push(el.hasAttribute('data-other') ? 'Otro: ' + v : v);
+        });
+        if (vals.length) lines.push('• ' + fs.getAttribute('data-q') + ': ' + vals.join('; '));
+      });
+      if (lines.length) out.push('', '*' + sec.getAttribute('data-section') + '*', lines.join('\n'));
+    });
+    return out.length > 1 ? out.join('\n') : '';
+  }
+
+  var status = document.getElementById('status');
+  function say(msg) { status.textContent = msg; }
+
+  document.getElementById('wa').addEventListener('click', function () {
+    var text = summary();
+    if (!text) { say('Todavía no has marcado nada.'); return; }
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    say('Abriendo WhatsApp…');
+  });
+
+  document.getElementById('copy').addEventListener('click', function () {
+    var text = summary();
+    if (!text) { say('Todavía no has marcado nada.'); return; }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); say('Copiado. Pégalo en WhatsApp o en un correo.'); }
+      catch (e) { say('No se ha podido copiar automáticamente.'); }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        say('Copiado. Pégalo en WhatsApp o en un correo.');
+      }, fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
