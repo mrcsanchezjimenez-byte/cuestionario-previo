@@ -352,6 +352,7 @@ Lo que estoy montando, siguiendo una guía paso a paso:
 - Chat: mis preferencias (Ajustes → Your Claude), mi memoria, conectores de correo, calendario y Drive, y tres proyectos: "Secretaría y documentación", "Mi director financiero" y "Fiscal, legal y reclamaciones".
 - Chrome: la extensión de Claude, para analizar páginas y hacer tareas en webs.
 - Code: ordenar los documentos de mi ordenador desde la carpeta C:\Orden. Nunca borra, me pide aprobar el plan antes de mover nada, apunta cada movimiento y deja un script para deshacerlo.
+- Contexto: carpeta C:\Claude con BASE.md, y un ESTADO.md y un DECISIONES.md por proyecto. Mis skills /arranque y /cierre. En Code uso /compact cuando una conversación se alarga.
 - Tareas programadas: un resumen de noticias y mi agenda de cada mañana.
 
 Mis límites: en ChatGPT llegué a gastar unos 100 € al día. Por eso uso un plan de cuota fija, con el uso extra de pago (usage credits) desactivado, sin claves de API y con una sola tarea larga cada vez.
@@ -377,6 +378,35 @@ Separa lo que se dijo de tus interpretaciones. Si una frase no se entiende bien 
 
 --- TRANSCRIPCIÓN ---
 (pega aquí la transcripción o adjunta el archivo TXT o DOCX)</script>
+
+<script type="text/plain" id="tpl-ESTRUCTURA">Quiero organizar todos mis proyectos con una estructura común, para que tú sepas siempre dónde lo dejamos sin que yo tenga que recordarlo. Hazlo así:
+
+1. Crea la carpeta maestra C:\Claude. No muevas ni borres nada de lo que ya tengo.
+
+2. En C:\Claude crea:
+   - BASE.md: mi forma de trabajar, común a todos los proyectos. Hazme 5 o 6 preguntas cortas (cómo quiero que me respondas, qué nunca debes hacer sin permiso, mis límites de gasto, cómo nombro los archivos) y rellénalo con mis respuestas.
+   - BANDEJA.md: lista vacía para ideas sueltas, con el formato "- [fecha] idea · proyecto: sin asignar".
+   - CLAUDE.md con esta regla para cualquier conversación en esta carpeta: "Al empezar, lee BASE.md y el ESTADO.md del proyecto. Cada vez que termines un paso, actualiza ESTADO.md en ese momento, sin esperar al final."
+
+3. Crea una subcarpeta por proyecto: "Secretaría y documentación", "Mi director financiero" y "Fiscal, legal y reclamaciones". Pregúntame si quiero añadir alguna más (por ejemplo una por operación grande). En cada una crea:
+   - ESTADO.md con las secciones: Semáforo (🟢/🟡/🔴), Objetivo actual, Hecho, Pendiente, Bloqueos, Siguiente paso exacto y Última actualización.
+   - DECISIONES.md con el formato "- [fecha] decisión · motivo".
+
+4. La carpeta C:\Orden ya tiene su propio ESTADO.md: no la toques, solo añádela a la lista de proyectos en BASE.md.
+
+5. Al final, enséñame el árbol de carpetas y un resumen de 3 líneas.
+
+Todo en español, claro y breve. No crees nada más de lo que te pido.</script>
+
+<script type="text/plain" id="tpl-SKILLS">Créame dos skills personales, para que me sirvan en cualquier carpeta y conversación:
+
+arranque: cuando la invoque, lee C:\Claude\BASE.md y el ESTADO.md y DECISIONES.md del proyecto en el que estoy (si no sabes cuál es, pregúntamelo). Dame en 5 líneas como máximo: dónde lo dejé, qué toca ahora, bloqueos, el semáforo y el siguiente paso exacto. Si falta algún archivo, avísame y ofrece crearlo.
+
+cierre: cuando la invoque, actualiza el ESTADO.md del proyecto (Hecho, Pendiente, Bloqueos, Siguiente paso exacto, semáforo y fecha), añade a DECISIONES.md las decisiones tomadas en esta conversación con su motivo, y apunta en C:\Claude\BANDEJA.md cualquier idea que haya salido y no sea de esta tarea. Enséñame en 3 líneas qué has cambiado. No borres contenido anterior. Si no puedes escribir en los archivos (por ejemplo, en un proyecto de Chat), dame el ESTADO.md completo ya actualizado para que yo lo sustituya.
+
+Cuando las tengas, explícame en dos líneas cómo las uso aquí y cómo las uso en la pestaña Chat.</script>
+
+<script type="text/plain" id="tpl-LINEA">Regla de trabajo: al empezar, mira el ESTADO.md de este proyecto. Cada vez que terminemos un paso, dame el ESTADO.md actualizado (Hecho, Pendiente, Bloqueos, Siguiente paso exacto y fecha), sin esperar al final. Nunca borres lo anterior: añade.</script>
 
 <script type="text/plain" id="tpl-ORDEN">Vas a ordenar los documentos de trabajo de mi ordenador. Es un trabajo largo: hazlo del tirón, por fases, sin pedirme permiso para cada paso. Solo te paras en un punto: antes de mover ningún archivo, para que apruebe el plan.
 
@@ -475,6 +505,7 @@ Escribe C:\Orden\INFORME_FINAL.md con:
     { id: "b1", name: "Chat · Déjalo listo y seguro" },
     { id: "bc", name: "Chrome · Claude en tu navegador" },
     { id: "b3", name: "Code · Tu ordenador se ordena" },
+    { id: "bo", name: "Code · Arranque, cierre y memoria" },
     { id: "b4", name: "Chat · Tareas automáticas" },
     { id: "bm", name: "Reuniones · Traducción y notas" },
     { id: "b5", name: "Tu día a día" }
@@ -637,6 +668,41 @@ Escribe C:\Orden\INFORME_FINAL.md con:
       how: ["Cuando avise, abre " + P("C:\\Orden\\resumen_plan.md") + " y léelo (5 minutos).", "Si algo no te cuadra, díselo con tus palabras.", "Cuando esté bien, escribe " + P("apruebo el plan") + ". Mueve, comprueba y te hace una ficha de cada inmueble.", "Si se para o lo dejas a medias: Code → " + P("C:\\Orden") + " → escribe " + P("sigue") + "."],
       note: { kind: "tip", title: "Tranquilidad", text: "Cada movimiento queda apuntado y existe un script para deshacerlo todo. Los duplicados van a una carpeta aparte." } },
 
+    { id: "estructura", block: "bo", tag: "code", time: "10 min", title: "Un ESTADO.md en cada proyecto",
+      why: "Las conversaciones no se ven entre sí y, cuando son largas, Claude olvida detalles. La solución: que cada proyecto tenga un archivo ESTADO.md con lo hecho, lo pendiente y el siguiente paso, y que Claude lo actualice cada vez que termina un paso.",
+      how: ["En " + P("Code") + ", abre una conversación nueva en la carpeta " + P("Documentos") + ".", "Copia el texto de abajo y envía. Te hará unas preguntas cortas para escribir tu BASE.md.", "Al final te enseña cómo han quedado las carpetas."],
+      copies: [{ id: "ESTRUCTURA", label: "Crear tu carpeta de proyectos" }],
+      body: function () {
+        return '<div class="note tip"><b>Lo que vas a tener</b><ul>' +
+          '<li><span class="path">C:\\Claude\\BASE.md</span>: tu forma de trabajar, común a todo.</li>' +
+          '<li><span class="path">C:\\Claude\\BANDEJA.md</span>: ideas sueltas para no perderlas.</li>' +
+          '<li>Una carpeta por proyecto con <span class="path">ESTADO.md</span> (semáforo, hecho, pendiente, bloqueos, siguiente paso) y <span class="path">DECISIONES.md</span> (qué se decidió y por qué).</li>' +
+          '<li><span class="path">C:\\Claude\\CLAUDE.md</span>: la regla de actualizar ESTADO.md después de cada paso. Code la lee sola cada vez que trabajas en esa carpeta.</li></ul></div>';
+      } },
+
+    { id: "skills", block: "bo", tag: "code", time: "5 min", title: "Tus comandos /arranque y /cierre",
+      why: "Dos atajos que escribes al empezar y al acabar. /arranque te pone al día en 5 líneas leyendo el ESTADO.md. /cierre lo deja todo apuntado para la próxima vez. Así nunca empiezas de cero.",
+      how: ["En " + P("Code") + ", en la misma conversación (o una nueva en " + P("C:\\Claude") + "), copia el texto de abajo y envía.", "Si te pide permiso para crear los archivos de las skills, acepta.", "Pruébalo: escribe " + P("/arranque") + " y luego " + P("/cierre") + "."],
+      copies: [{ id: "SKILLS", label: "Crear /arranque y /cierre" }],
+      note: { kind: "tip", title: "Qué es una skill", text: "Una instrucción guardada que Claude ejecuta cuando escribes su nombre con una barra delante. Te ahorra repetir el mismo texto en cada conversación." } },
+
+    { id: "rutina", block: "bo", tag: "chat", time: "3 min", title: "Tu rutina con cada proyecto",
+      why: "Cinco pasos que sirven igual en Code y en Chat. Con ellos el ESTADO.md está siempre al día.",
+      how: ["Abre una conversación para <b>una</b> tarea, con un nombre claro: “[Director financiero] análisis local Calle X”.", "Escribe " + P("/arranque") + ": te dice dónde lo dejaste y qué toca.", "Trabaja. Después de cada paso, Claude actualiza el ESTADO.md.", "Al acabar, escribe " + P("/cierre") + ": apunta lo hecho, lo pendiente y lo decidido.", "Cierra la conversación tranquilo: todo queda escrito."],
+      copies: [{ id: "LINEA", label: "Añadir a las instrucciones de cada proyecto de Chat" }],
+      note: { kind: "code", title: "En los proyectos de Chat", text: "Chat no escribe solo en las carpetas de tu ordenador. Añade la línea de arriba al final de las instrucciones de cada uno de tus tres proyectos: Claude te dará el ESTADO.md actualizado y tú lo sustituyes en los archivos del proyecto (o lo guardas en su carpeta de C:\\Claude). Si /arranque o /cierre no aparecen en Chat, pídele a Claude que te los active ahí." } },
+
+    { id: "compact", block: "bo", tag: "code", time: "3 min", title: "/compact: cuando la conversación se hace larga",
+      why: "Cada conversación tiene un límite de lo que Claude puede tener presente a la vez. En trabajos largos, como ordenar el ordenador, se llena. /compact resume la conversación para liberar espacio y seguir en la misma.",
+      how: ["Escríbelo en Code cuando Claude vaya lento, empiece a olvidar cosas o cambies de fase: " + P("/compact") + ".", "Puedes decirle qué no debe perder: " + P("/compact conserva las decisiones y el siguiente paso del orden") + ".", "Antes de compactar, haz " + P("/cierre") + ": así lo importante queda en ESTADO.md aunque el resumen pierda detalle.", "Si la conversación llega al límite, Claude compacta solo. No pasa nada: sigue con normalidad."],
+      body: function () {
+        return '<div class="note tip"><b>¿/compact o conversación nueva?</b><ul>' +
+          '<li><b>/compact</b>: sigues con la <b>misma tarea</b> y quieres conservar el hilo.</li>' +
+          '<li><b>Conversación nueva + /arranque</b>: empiezas <b>otra tarea</b>, o la conversación ya está muy cargada. Es lo más limpio, porque el ESTADO.md tiene lo que hace falta.</li>' +
+          '<li><b>/clear</b>: vacía la conversación y empieza de cero en la misma ventana. Úsalo solo después de un /cierre.</li></ul></div>';
+      },
+      note: { kind: "warn", title: "No es de pago", text: "Compactar usa la cuota de tu plan como cualquier otro mensaje. Y las conversaciones más ligeras gastan menos." } },
+
     { id: "noticias", block: "b4", tag: "chat", time: "5 min", title: "Noticias que te interesan",
       why: "Un resumen automático con lo que te importa como inversor, sin tener que buscarlo.",
       how: ["Elige abajo los temas, los días y la hora.", "Abre el proyecto " + P("Mi director financiero") + ", empieza un chat nuevo, pega el texto y envía.", "Claude te propone la tarea programada: revisa el día y la hora y acepta. También se puede crear desde " + P("Scheduled") + ", en la barra lateral."],
@@ -704,7 +770,7 @@ Escribe C:\Orden\INFORME_FINAL.md con:
         }).join("");
         return '<div class="sum">' + rows + "</div>" +
           '<div class="note code"><b>Lo pendiente</b><ul><li>Cuando Claude avise, lee <span class="path">C:\\Orden\\resumen_plan.md</span> y responde “apruebo el plan” o lo que quieras cambiar.</li><li>Lo que dejaste “para otro día” está arriba: pulsa su nombre para volver.</li></ul></div>' +
-          '<div class="note tip"><b>Cada día</b><ul><li>Cada tema, en su proyecto: secretaría, inversiones o fiscal-legal.</li><li>Una tarea larga cada vez. Si se corta, escribe “sigue”.</li><li>Las dudas, a tu chat “Ayuda con Claude”.</li><li>Nunca actives pagos extra ni claves de API.</li></ul></div>' +
+          '<div class="note tip"><b>Cada día</b><ul><li>Cada tema, en su proyecto: secretaría, inversiones o fiscal-legal.</li><li>Empieza con /arranque y acaba con /cierre. Si una conversación se alarga, /compact o una nueva.</li><li>Una tarea larga cada vez. Si se corta, escribe “sigue”.</li><li>Las dudas, a tu chat “Ayuda con Claude”.</li><li>Nunca actives pagos extra ni claves de API.</li></ul></div>' +
           '<div class="row"><button type="button" class="btn" data-reset="1">Empezar la guía de cero</button></div>';
       } }
   ];
@@ -713,6 +779,7 @@ Escribe C:\Orden\INFORME_FINAL.md con:
     A: function () { return tpl("A"); }, B: function () { return tpl("B"); },
     C1: function () { return tpl("C1"); }, C2: function () { return tpl("C2"); }, C3: function () { return tpl("C3"); },
     AYUDA: function () { return tpl("AYUDA"); }, ACTA: function () { return tpl("ACTA"); },
+    ESTRUCTURA: function () { return tpl("ESTRUCTURA"); }, SKILLS: function () { return tpl("SKILLS"); }, LINEA: function () { return tpl("LINEA"); },
     CARPETA: function () { return tpl("CARPETA"); },
     CHROME: function () { return tpl("CHROME"); },
     WEB1: function () { return tpl("WEB1"); },
@@ -871,6 +938,10 @@ Escribe C:\Orden\INFORME_FINAL.md con:
     carpeta: ["No encuentro la pestaña Code", "Me pide instalar Git, ¿es seguro?"],
     lanzar: ["Me pide permiso para algo que no entiendo", "¿Cuánto va a tardar?"],
     despues: ["¿Cómo deshago los cambios si algo sale mal?", "Se ha quedado parado, ¿cómo lo retomo?"],
+    estructura: ["¿Puedo poner la carpeta C:\\Claude dentro de Google Drive?", "¿Qué pongo en BASE.md?"],
+    skills: ["Escribo /arranque y no pasa nada", "¿Cómo uso /arranque y /cierre en la pestaña Chat?"],
+    rutina: ["¿Dónde se cambian las instrucciones de un proyecto de Chat?", "¿Cómo sustituyo un archivo en un proyecto de Chat?"],
+    compact: ["¿Cómo sé que la conversación está llegando al límite?", "¿Qué diferencia hay entre /compact y /clear?"],
     noticias: ["No veo cómo programar la tarea", "¿Las tareas programadas gastan mucho uso del plan?"],
     agenda: ["¿Puede leer también Outlook?", "¿Puede cambiarme citas?"],
     traduccion: ["¿Cuál me conviene si mis reuniones son en inglés?", "¿Cómo pido el consentimiento para transcribir una reunión?"],
