@@ -2,449 +2,919 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Cuestionario previo</title>
+<title>Tu arranque con Claude</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-  :root {
-    --bg: #f6f4ef;
-    --card: #ffffff;
-    --ink: #1d1d1b;
-    --muted: #5d5b55;
-    --line: #dcd8cf;
-    --accent: #1f5f4a;
-    --accent-ink: #ffffff;
-    --accent-soft: #e4efe9;
-    --focus: #c47a1d;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #171a19;
-      --card: #202423;
-      --ink: #eeece7;
-      --muted: #a9a69e;
-      --line: #3a3f3d;
-      --accent: #5fb894;
-      --accent-ink: #0d1f18;
-      --accent-soft: #233a31;
-      --focus: #e0a24f;
-    }
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font: 19px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
-  header h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 12px; }
-  header p { margin: 0 0 12px; }
-  header .lead { color: var(--accent); font-weight: 600; font-size: 1.05em; margin-bottom: 10px; }
-  .note {
-    background: var(--accent-soft);
-    border-left: 5px solid var(--accent);
-    padding: 14px 18px;
-    border-radius: 8px;
-    margin: 20px 0 8px;
-  }
-  .note ul { margin: 6px 0 0; padding-left: 22px; }
-  section {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 22px 20px;
-    margin-top: 22px;
-  }
-  section > h2 { font-size: 1.35rem; margin: 0 0 4px; }
-  section > h2 .n {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 1.7em; height: 1.7em; border-radius: 50%;
-    background: var(--accent); color: var(--accent-ink);
-    font-size: .8em; margin-right: 8px; vertical-align: 2px;
-  }
-  section > .intro { color: var(--muted); margin: 0 0 8px; }
-  fieldset { border: 0; padding: 0; margin: 20px 0 0; }
-  legend { font-weight: 650; padding: 0; margin-bottom: 8px; }
-  .hint { display: block; font-weight: 400; color: var(--muted); font-size: .9em; }
-  .opts { display: grid; gap: 8px; }
-  .opts.cols { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-  label.opt {
-    display: flex; gap: 12px; align-items: flex-start;
-    padding: 11px 14px; border: 1px solid var(--line); border-radius: 10px;
-    cursor: pointer; background: var(--card);
-  }
-  label.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
-  label.opt input { width: 22px; height: 22px; margin: 3px 0 0; flex: none; accent-color: var(--accent); }
-  label.opt small { display: block; color: var(--muted); font-size: .86em; }
-  textarea, input[type="text"] {
-    width: 100%; font: inherit; color: var(--ink); background: var(--card);
-    border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
-  }
-  textarea { min-height: 96px; resize: vertical; }
-  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-  .other { margin-top: 8px; }
-  .send { text-align: center; }
-  .send p { margin: 0 0 16px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    font: inherit; font-weight: 650; border-radius: 12px; cursor: pointer;
-    padding: 16px 26px; border: 2px solid var(--accent); min-width: 260px; margin: 6px;
-  }
-  .btn.primary { background: var(--accent); color: var(--accent-ink); }
-  .btn.secondary { background: transparent; color: var(--accent); }
-  #status { min-height: 1.5em; margin-top: 12px; font-weight: 600; color: var(--accent); }
-  footer { color: var(--muted); font-size: .85em; text-align: center; margin-top: 28px; }
-  @media (max-width: 480px) {
-    body { font-size: 18px; }
-    header h1 { font-size: 1.6rem; }
-    section { padding: 18px 14px; }
-    .btn { width: 100%; min-width: 0; margin: 6px 0; }
-  }
+/* Self-serve guide. Left rail lists the steps grouped in blocks; one step card at a time; "¿Dudas?" drawer prepares a question for the reader's own Claude. Light-only on purpose. */
+[hidden] { display: none !important; }
+body { margin: 0; }
+a { color: var(--accent); }
+.chip.meet { background: #f3ecf8; color: #6b3d8f; }
+.compose { display: grid; gap: 10px; }
+.compose textarea { width: 100%; min-height: 90px; resize: vertical; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: inherit; }
+.compose .row { justify-content: flex-end; }
+.tools { display: grid; gap: 12px; }
+.tool { border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; display: grid; gap: 6px; }
+.tool h3 { font-size: 1.05rem; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tool .badge { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: .04em; padding: 2px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.tool .badge.alt { background: var(--panel); color: var(--muted); }
+.tool p { color: #33423d; font-size: 0.97rem; }
+:root {
+  --bg: #ffffff;
+  --panel: #f6f8f7;
+  --ink: #13201c;
+  --muted: #5d6a65;
+  --line: #e4e9e6;
+  --accent: #1f5f52;
+  --accent-ink: #ffffff;
+  --accent-soft: #edf5f2;
+  --code: #9a6a12;
+  --code-soft: #fbf3e2;
+  --warn: #9c3d24;
+  --warn-soft: #fbeee9;
+  --font-display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; line-height: 1.2; text-wrap: balance; }
+p { margin: 0; }
+
+/* Top bar */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 14px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.brand { display: grid; gap: 2px; margin-right: auto; }
+.brand h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.01em; }
+.brand span { font-size: 0.82rem; color: var(--muted); }
+.progress { display: flex; align-items: center; gap: 12px; min-width: 220px; flex: 0 1 340px; }
+.bar { flex: 1; height: 8px; background: var(--panel); border-radius: 99px; overflow: hidden; border: 1px solid var(--line); }
+.bar i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .35s ease; }
+.progress b { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ask-btn {
+  display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--accent); background: var(--accent-soft);
+  color: var(--accent); padding: 8px 14px; border-radius: 99px; font-weight: 600; font-size: 0.92rem;
+}
+.ask-btn:hover { background: var(--accent); color: var(--accent-ink); }
+
+/* Shell */
+.shell {
+  display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 40px;
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 80px;
+}
+.rail { position: sticky; top: 92px; align-self: start; max-height: calc(100vh - 110px); overflow-y: auto; padding-right: 6px; }
+.rail-toggle { display: none; }
+.block { margin-bottom: 18px; }
+.block-h { display: flex; align-items: center; gap: 8px; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-family: var(--font-mono); margin: 0 0 6px 10px; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.steps button {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: center;
+  background: transparent; border: 0; border-radius: 10px; padding: 8px 10px; font-size: 0.93rem; color: var(--ink);
+}
+.steps button:hover { background: var(--panel); }
+.steps button[aria-current="step"] { background: var(--accent-soft); font-weight: 600; }
+.dot {
+  width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); background: var(--bg);
+}
+.done .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.skip .dot { background: var(--panel); text-decoration: line-through; }
+.steps button[aria-current="step"] .dot { border-color: var(--accent); color: var(--accent); }
+.done[aria-current="step"] .dot { color: var(--accent-ink); }
+
+/* Step card */
+.stage { min-width: 0; }
+.card { max-width: 760px; display: grid; gap: 22px; animation: in .25s ease; }
+@keyframes in { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .card { animation: none; } .bar i { transition: none; } }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; font-weight: 500; }
+.chip.chat { background: var(--accent-soft); color: var(--accent); }
+.chip.code { background: var(--code-soft); color: var(--code); }
+.chip.chrome { background: #eaf0fa; color: #2c5596; }
+.chip.prep { background: var(--panel); color: var(--muted); }
+.chip.time { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.card h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; }
+.why { font-size: 1.15rem; color: var(--muted); max-width: 60ch; }
+.how { margin: 0; padding: 0; list-style: none; counter-reset: h; display: grid; gap: 12px; }
+.how li { counter-increment: h; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; font-size: 1.04rem; }
+.how li::before {
+  content: counter(h); width: 30px; height: 30px; border-radius: 50%; background: var(--panel); border: 1px solid var(--line);
+  display: grid; place-items: center; font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); font-weight: 500;
+}
+.path { font-family: var(--font-mono); font-size: 0.86em; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+.who { font-weight: 600; color: var(--accent); }
+.note { border-radius: 12px; padding: 14px 18px; font-size: 0.97rem; display: grid; gap: 4px; }
+.note b { font-family: var(--font-display); font-weight: 600; }
+.note.warn { background: var(--warn-soft); color: #5a2414; }
+.note.warn b { color: var(--warn); }
+.note.tip { background: var(--accent-soft); }
+.note.code { background: var(--code-soft); }
+.note ul { margin: 4px 0 0; padding-left: 1.1em; display: grid; gap: 4px; }
+
+/* Copy blocks */
+.copy { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.copy-h { display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.copy-h span { font-weight: 600; font-size: 0.95rem; margin-right: auto; }
+.copy-h small { color: var(--muted); font-size: 0.8rem; }
+.btn {
+  border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 7px 14px; font-weight: 600; font-size: 0.9rem;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.primary:hover { filter: brightness(1.08); color: var(--accent-ink); }
+.copy pre {
+  margin: 0; padding: 14px 16px; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.55; white-space: pre-wrap;
+  word-break: break-word; max-height: 180px; overflow: auto; color: #33423d; background: var(--bg);
+}
+.copy.open pre { max-height: 560px; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs button { border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 6px 14px; font-size: 0.9rem; }
+.tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* Inputs */
+.field { display: grid; gap: 6px; }
+.field label { font-weight: 600; font-size: 0.95rem; }
+.field input[type="text"], .field input[type="time"], .field select {
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--bg); width: 100%; max-width: 460px;
+}
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 8px 14px; font-size: 0.93rem; }
+.opt[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.checks { display: grid; gap: 8px; }
+.check { display: flex; gap: 10px; align-items: center; font-size: 1.02rem; }
+.check input { width: 20px; height: 20px; accent-color: var(--accent); }
+.row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+/* Footer nav */
+.nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid var(--line); }
+.nav .spacer { flex: 1; }
+.nav .btn { padding: 11px 18px; font-size: 0.98rem; }
+.hint { font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
+
+/* Summary */
+.sum { display: grid; gap: 10px; }
+.sum-row { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: center; font-size: 1rem; }
+.sum-row .dot { width: 20px; height: 20px; }
+
+/* Ask drawer */
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); z-index: 20; background: var(--bg);
+  border-left: 1px solid var(--line); box-shadow: -18px 0 40px rgba(19, 32, 28, .08);
+  display: grid; grid-template-rows: auto 1fr auto;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px);
+  transform: translateX(105%); transition: transform .25s ease;
+}
+.drawer.open { transform: none; }
+@media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
+.drawer-h { display: flex; align-items: start; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.drawer-h div { flex: 1; display: grid; gap: 2px; }
+.drawer-h h3 { font-size: 1.05rem; }
+.drawer-h small { color: var(--muted); font-size: 0.82rem; }
+.x { border: 0; background: var(--panel); width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; line-height: 1; }
+.msgs { overflow-y: auto; padding: 18px 20px; display: grid; gap: 14px; align-content: start; }
+.msg { max-width: 92%; padding: 10px 14px; border-radius: 14px; font-size: 0.95rem; white-space: pre-wrap; word-break: break-word; }
+.msg.me { justify-self: end; background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 4px; }
+.msg.ai { justify-self: start; background: var(--panel); border-bottom-left-radius: 4px; }
+.msg.sys { justify-self: center; color: var(--muted); font-size: 0.85rem; background: transparent; text-align: center; }
+.sugg { display: flex; flex-wrap: wrap; gap: 6px; }
+.sugg button { border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 5px 12px; font-size: 0.84rem; text-align: left; }
+.compose { padding: 14px 20px 18px; border-top: 1px solid var(--line); }
+.scrim { position: fixed; inset: 0; background: rgba(19, 32, 28, .18); z-index: 15; }
+
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 9px 16px; border-radius: 99px; font-size: 0.9rem; z-index: 30; }
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; gap: 18px; padding-top: 16px; }
+  .rail { position: static; max-height: none; padding: 0; }
+  .rail-toggle { display: flex; width: 100%; justify-content: space-between; align-items: center; border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 10px 14px; font-weight: 600; }
+  .rail-list { margin-top: 12px; }
+  .rail:not(.show) .rail-list { display: none; }
+  .progress { flex-basis: 100%; order: 3; }
+}
 </style>
 </head>
 <body>
-<main>
-  <header>
-    <p class="lead">Somos Marcos y su Claude, buscando si podemos ayudarte en alguna cosa más aprovechando el ratito del viernes.</p>
-    <h1>Antes de vernos: cuéntanos cómo trabajas</h1>
-    <p>Queremos llegar a la reunión con propuestas concretas que te ahorren tiempo, no solo con lo de ordenar el ordenador. Con estas respuestas podremos pensar en paneles, avisos y herramientas hechas a tu medida.</p>
-    <div class="note">
-      <strong>Antes de empezar:</strong>
-      <ul>
-        <li>Son unos 10 minutos. Casi todo es marcar casillas.</li>
-        <li><strong>No necesitamos importes, nombres ni datos concretos</strong> de tus inversiones o inquilinos. Solo saber qué tipo de cosas gestionas y cómo.</li>
-        <li>Nada se guarda en internet. Al terminar, pulsas el botón verde del final y nos lo mandas por WhatsApp.</li>
-        <li>Si lo dejas a medias, lo marcado se queda guardado en este dispositivo.</li>
-        <li>Lo que no sepas o no aplique, déjalo en blanco.</li>
-      </ul>
+
+<header class="top">
+  <div class="brand">
+    <h1>Tu arranque con Claude</h1>
+    <span>Paso a paso y a tu ritmo · lo que marques se guarda en este navegador</span>
+  </div>
+  <div class="progress" aria-label="Progreso">
+    <div class="bar"><i id="barFill"></i></div>
+    <b id="progText">0</b>
+  </div>
+  <button class="ask-btn" id="askOpen" type="button">✦ ¿Dudas?</button>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" aria-label="Pasos">
+    <button class="rail-toggle" id="railToggle" type="button" aria-expanded="false"><span id="railCurrent">Pasos</span><span>▾</span></button>
+    <div class="rail-list" id="railList"></div>
+  </nav>
+  <main class="stage" id="stage" aria-live="polite"></main>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" aria-label="¿Dudas?" aria-hidden="true">
+  <div class="drawer-h">
+    <div>
+      <h3>¿Dudas? Pregúntaselo a tu Claude</h3>
+      <small id="askCtx">Se incluye el paso en el que estás.</small>
     </div>
-  </header>
-
-  <form id="f" autocomplete="off">
-
-    <section data-section="Tu día a día">
-      <h2><span class="n">1</span>Tu día a día</h2>
-      <fieldset data-q="A qué te dedicas">
-        <legend>¿A qué te dedicas principalmente?<span class="hint">En una frase, sin detalles.</span></legend>
-        <input type="text" name="dedicacion">
-      </fieldset>
-      <fieldset data-q="Horas semanales de papeleo y gestión">
-        <legend>¿Cuántas horas a la semana dedicas a papeleo, cuentas y gestión?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="horas" value="Menos de 2">Menos de 2</label>
-          <label class="opt"><input type="radio" name="horas" value="De 2 a 5">De 2 a 5</label>
-          <label class="opt"><input type="radio" name="horas" value="De 5 a 10">De 5 a 10</label>
-          <label class="opt"><input type="radio" name="horas" value="Más de 10">Más de 10</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Dispositivos">
-        <legend>¿Qué usas habitualmente?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="Ordenador Windows">Ordenador Windows</label>
-          <label class="opt"><input type="checkbox" value="Ordenador Mac">Ordenador Mac</label>
-          <label class="opt"><input type="checkbox" value="Móvil Android">Móvil Android</label>
-          <label class="opt"><input type="checkbox" value="iPhone">iPhone</label>
-          <label class="opt"><input type="checkbox" value="Tablet / iPad">Tablet / iPad</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Dónde guarda sus archivos">
-        <legend>¿Dónde tienes guardados tus documentos?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="En el ordenador">En el ordenador</label>
-          <label class="opt"><input type="checkbox" value="Disco duro externo">Disco duro externo</label>
-          <label class="opt"><input type="checkbox" value="OneDrive">OneDrive</label>
-          <label class="opt"><input type="checkbox" value="Google Drive">Google Drive</label>
-          <label class="opt"><input type="checkbox" value="Dropbox / iCloud">Dropbox / iCloud</label>
-          <label class="opt"><input type="checkbox" value="En el correo electrónico">En el correo electrónico</label>
-          <label class="opt"><input type="checkbox" value="En papel">En papel</label>
-        </div>
-      </fieldset>
-    </section>
-
-    <section data-section="Inmuebles en alquiler">
-      <h2><span class="n">2</span>Inmuebles en alquiler</h2>
-      <p class="intro">Solo para hacernos una idea del volumen y de lo que te da trabajo.</p>
-      <fieldset data-q="Número aproximado de inmuebles">
-        <legend>¿Cuántos inmuebles tienes alquilados, más o menos?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="num_inm" value="1 o 2">1 o 2</label>
-          <label class="opt"><input type="radio" name="num_inm" value="De 3 a 5">De 3 a 5</label>
-          <label class="opt"><input type="radio" name="num_inm" value="De 6 a 10">De 6 a 10</label>
-          <label class="opt"><input type="radio" name="num_inm" value="Más de 10">Más de 10</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Tipo de alquiler">
-        <legend>¿Qué tipo de alquiler?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="Vivienda de larga duración">Vivienda de larga duración</label>
-          <label class="opt"><input type="checkbox" value="Temporada (meses)">Temporada (meses)</label>
-          <label class="opt"><input type="checkbox" value="Turístico / vacacional">Turístico / vacacional</label>
-          <label class="opt"><input type="checkbox" value="Por habitaciones">Por habitaciones</label>
-          <label class="opt"><input type="checkbox" value="Locales u oficinas">Locales u oficinas</label>
-          <label class="opt"><input type="checkbox" value="Garajes o trasteros">Garajes o trasteros</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Quién lo gestiona">
-        <legend>¿Quién lleva la gestión?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="gestion" value="Yo solo">Yo solo</label>
-          <label class="opt"><input type="radio" name="gestion" value="Con ayuda de un familiar">Con ayuda de un familiar</label>
-          <label class="opt"><input type="radio" name="gestion" value="Una agencia o administrador">Una agencia o administrador</label>
-          <label class="opt"><input type="radio" name="gestion" value="Mixto: unos yo y otros la agencia">Mixto: unos yo y otros la agencia</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Cómo lleva hoy el control">
-        <legend>¿Cómo llevas hoy el control?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="Hoja de Excel">Hoja de Excel</label>
-          <label class="opt"><input type="checkbox" value="Libreta o papel">Libreta o papel</label>
-          <label class="opt"><input type="checkbox" value="Una aplicación o programa">Una aplicación o programa</label>
-          <label class="opt"><input type="checkbox" value="Me lo lleva la gestoría">Me lo lleva la gestoría</label>
-          <label class="opt"><input type="checkbox" value="Lo llevo de cabeza">Lo llevo de cabeza</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Tareas de alquiler que más pesan">
-        <legend>¿Qué tareas te quitan más tiempo o te preocupan?<span class="hint">Marca todas las que quieras.</span></legend>
-        <div class="opts">
-          <label class="opt"><input type="checkbox" value="Comprobar que han pagado todos los inquilinos">Comprobar que han pagado todos los inquilinos</label>
-          <label class="opt"><input type="checkbox" value="Retrasos e impagos">Retrasos e impagos</label>
-          <label class="opt"><input type="checkbox" value="Vencimientos y renovaciones de contratos">Vencimientos y renovaciones de contratos</label>
-          <label class="opt"><input type="checkbox" value="Subidas anuales de renta (IPC)">Subidas anuales de renta (IPC)</label>
-          <label class="opt"><input type="checkbox" value="Fianzas y su depósito">Fianzas y su depósito</label>
-          <label class="opt"><input type="checkbox" value="Averías, reparaciones y proveedores">Averías, reparaciones y proveedores</label>
-          <label class="opt"><input type="checkbox" value="Gastos fijos: comunidad, IBI, seguros, suministros">Gastos fijos: comunidad, IBI, seguros, suministros</label>
-          <label class="opt"><input type="checkbox" value="Comunicación con inquilinos">Comunicación con inquilinos</label>
-          <label class="opt"><input type="checkbox" value="Buscar y seleccionar inquilinos">Buscar y seleccionar inquilinos</label>
-          <label class="opt"><input type="checkbox" value="Reservas, entradas, salidas y limpiezas">Reservas, entradas, salidas y limpiezas</label>
-          <label class="opt"><input type="checkbox" value="Preparar los papeles para la renta o la gestoría">Preparar los papeles para la renta o la gestoría</label>
-          <label class="opt"><input type="checkbox" value="Saber cuánto me renta de verdad cada inmueble">Saber cuánto me renta de verdad cada inmueble</label>
-        </div>
-        <input class="other" type="text" data-other placeholder="Otra (escríbela aquí)">
-      </fieldset>
-    </section>
-
-    <section data-section="Otras inversiones">
-      <h2><span class="n">3</span>Otras inversiones</h2>
-      <p class="intro">Sin cantidades ni detalles: solo qué tipo de cosas son, para saber qué tendría sentido mostrar en un panel.</p>
-      <fieldset data-q="Tipos de inversión">
-        <legend>¿Qué otros tipos de inversión tienes?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="Inmuebles en reforma o promoción">Inmuebles en reforma o promoción</label>
-          <label class="opt"><input type="checkbox" value="Solares o terrenos">Solares o terrenos</label>
-          <label class="opt"><input type="checkbox" value="Participación en empresas">Participación en empresas</label>
-          <label class="opt"><input type="checkbox" value="Bolsa, fondos o planes">Bolsa, fondos o planes</label>
-          <label class="opt"><input type="checkbox" value="Depósitos o renta fija">Depósitos o renta fija</label>
-          <label class="opt"><input type="checkbox" value="Préstamos a terceros">Préstamos a terceros</label>
-        </div>
-        <input class="other" type="text" data-other placeholder="Otro tipo (escríbelo aquí)">
-      </fieldset>
-      <fieldset data-q="Dificultades con las inversiones">
-        <legend>¿Qué te cuesta más con todo esto?</legend>
-        <div class="opts">
-          <label class="opt"><input type="checkbox" value="Tener una visión de conjunto de todo">Tener una visión de conjunto de todo</label>
-          <label class="opt"><input type="checkbox" value="Recordar fechas clave y vencimientos">Recordar fechas clave y vencimientos</label>
-          <label class="opt"><input type="checkbox" value="Encontrar los documentos de cada inversión">Encontrar los documentos de cada inversión</label>
-          <label class="opt"><input type="checkbox" value="Saber cómo evoluciona cada una">Saber cómo evoluciona cada una</label>
-          <label class="opt"><input type="checkbox" value="Comparar rentabilidades">Comparar rentabilidades</label>
-          <label class="opt"><input type="checkbox" value="Que otra persona pueda entenderlo si un día hace falta">Que otra persona pueda entenderlo si un día hace falta</label>
-        </div>
-      </fieldset>
-    </section>
-
-    <section data-section="Sociedades y papeleo">
-      <h2><span class="n">4</span>Sociedades y papeleo</h2>
-      <fieldset data-q="Sociedades">
-        <legend>¿Tienes sociedades?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="soc" value="No">No</label>
-          <label class="opt"><input type="radio" name="soc" value="Una">Una</label>
-          <label class="opt"><input type="radio" name="soc" value="Varias">Varias</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Gestoría">
-        <legend>¿Trabajas con gestoría o asesor?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="gestoria" value="Sí, para todo">Sí, para todo</label>
-          <label class="opt"><input type="radio" name="gestoria" value="Sí, solo impuestos">Sí, solo impuestos</label>
-          <label class="opt"><input type="radio" name="gestoria" value="No">No</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Papeleo que más pesa">
-        <legend>¿Qué papeleo te pesa más?</legend>
-        <div class="opts">
-          <label class="opt"><input type="checkbox" value="Facturas recibidas y emitidas">Facturas recibidas y emitidas</label>
-          <label class="opt"><input type="checkbox" value="Movimientos de varios bancos">Movimientos de varios bancos</label>
-          <label class="opt"><input type="checkbox" value="Correo electrónico acumulado">Correo electrónico acumulado</label>
-          <label class="opt"><input type="checkbox" value="Fechas de impuestos y pagos">Fechas de impuestos y pagos</label>
-          <label class="opt"><input type="checkbox" value="Redactar cartas, contratos o escritos">Redactar cartas, contratos o escritos</label>
-          <label class="opt"><input type="checkbox" value="Ordenar y encontrar documentos">Ordenar y encontrar documentos</label>
-        </div>
-        <input class="other" type="text" data-other placeholder="Otro (escríbelo aquí)">
-      </fieldset>
-    </section>
-
-    <section data-section="Qué te gustaría tener">
-      <h2><span class="n">5</span>Qué te gustaría tener</h2>
-      <p class="intro">Son ideas de lo que podemos montarte. Marca las que te llamen la atención; no te compromete a nada.</p>
-      <fieldset data-q="Herramientas que le interesan">
-        <legend>¿Cuáles te serían útiles?</legend>
-        <div class="opts">
-          <label class="opt"><input type="checkbox" value="Panel de alquileres"><span>Panel de alquileres<small>De un vistazo: quién ha pagado, quién debe, qué contratos vencen pronto.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Calendario de vencimientos"><span>Calendario de vencimientos<small>Contratos, seguros, IBI, impuestos, revisiones… todo en un sitio.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Avisos automáticos"><span>Avisos automáticos<small>Te llega un aviso al móvil o al correo antes de cada fecha importante.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Panel de patrimonio"><span>Panel de patrimonio<small>Visión global de inmuebles e inversiones y cómo evolucionan.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Rentabilidad por inmueble"><span>Rentabilidad por inmueble<small>Ingresos menos gastos de cada uno, mes a mes y por año.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Archivo ordenado con buscador"><span>Archivo ordenado con buscador<small>Cada documento en su sitio y fácil de encontrar.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Resumen mensual automático"><span>Resumen mensual automático<small>Un informe corto cada mes con lo importante.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Paquete para la gestoría"><span>Paquete para la gestoría<small>Los papeles del trimestre o de la renta preparados y ordenados.</small></span></label>
-          <label class="opt"><input type="checkbox" value="Ayudante de redacción"><span>Ayudante de redacción<small>Contratos, cartas a inquilinos, reclamaciones, correos.</small></span></label>
-        </div>
-        <input class="other" type="text" data-other placeholder="Otra idea (escríbela aquí)">
-      </fieldset>
-      <fieldset data-q="Dónde consultarlo">
-        <legend>¿Dónde te gustaría consultarlo?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="radio" name="donde" value="En el ordenador">En el ordenador</label>
-          <label class="opt"><input type="radio" name="donde" value="En el móvil">En el móvil</label>
-          <label class="opt"><input type="radio" name="donde" value="En los dos">En los dos</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Quién más debería verlo">
-        <legend>¿Alguien más debería poder verlo?</legend>
-        <div class="opts cols">
-          <label class="opt"><input type="checkbox" value="Solo yo">Solo yo</label>
-          <label class="opt"><input type="checkbox" value="Familia">Familia</label>
-          <label class="opt"><input type="checkbox" value="Socio">Socio</label>
-          <label class="opt"><input type="checkbox" value="Gestoría">Gestoría</label>
-          <label class="opt"><input type="checkbox" value="Empleado o colaborador">Empleado o colaborador</label>
-        </div>
-      </fieldset>
-    </section>
-
-    <section data-section="Tu experiencia con la IA">
-      <h2><span class="n">6</span>Tu experiencia con la IA</h2>
-      <fieldset data-q="Comodidad con la tecnología">
-        <legend>¿Cómo te manejas con el ordenador y las aplicaciones?</legend>
-        <div class="opts">
-          <label class="opt"><input type="radio" name="tec" value="Me cuesta, prefiero que me lo dejen hecho">Me cuesta, prefiero que me lo dejen hecho</label>
-          <label class="opt"><input type="radio" name="tec" value="Me apaño si me lo explican paso a paso">Me apaño si me lo explican paso a paso</label>
-          <label class="opt"><input type="radio" name="tec" value="Me manejo bien y me gusta trastear">Me manejo bien y me gusta trastear</label>
-        </div>
-      </fieldset>
-      <fieldset data-q="Lo que mejor le ha funcionado con la IA">
-        <legend>¿Para qué te ha sido útil la IA hasta ahora?</legend>
-        <textarea name="ia_bien"></textarea>
-      </fieldset>
-      <fieldset data-q="Lo que le ha frustrado de la IA">
-        <legend>¿Qué te ha frustrado o no te ha salido como esperabas?</legend>
-        <textarea name="ia_mal"></textarea>
-      </fieldset>
-    </section>
-
-    <section data-section="Lo más importante">
-      <h2><span class="n">7</span>Lo más importante</h2>
-      <fieldset data-q="Tarea que se quitaría mañana">
-        <legend>Si mañana pudieras quitarte de encima una sola tarea, ¿cuál sería?</legend>
-        <textarea name="top1"></textarea>
-      </fieldset>
-      <fieldset data-q="Algo más">
-        <legend>¿Algo más que quieras contarnos antes de la reunión?</legend>
-        <textarea name="extra"></textarea>
-      </fieldset>
-    </section>
-
-    <section class="send">
-      <h2>¿Listo?</h2>
-      <p>Pulsa el botón verde. Se abrirá WhatsApp con tus respuestas ya escritas: elige nuestro chat y dale a enviar.</p>
-      <button type="button" class="btn primary" id="wa">Enviar por WhatsApp</button>
-      <br>
-      <button type="button" class="btn secondary" id="copy">Copiar respuestas</button>
-      <div id="status" role="status"></div>
-    </section>
+    <button class="x" id="askClose" type="button" aria-label="Cerrar">×</button>
+  </div>
+  <div class="msgs" id="msgs">
+    <div class="note warn"><b>Este recuadro ya no responde aquí</b><span>Durante la reunión estaba conectado al Claude de Marcos. Ahora las dudas se las preguntas a <b>tu propio Claude</b>: escribe aquí la pregunta, pulsa <b>Copiar</b> y pégala en tu chat “Ayuda con Claude” (lo configuras en el paso <a href="#ayuda" data-go="ayuda">Tu ayudante para dudas</a>) o en un chat nuevo.</span></div>
+    <p class="msg sys">Preguntas típicas en este paso (púlsalas para usarlas):</p>
+    <div class="sugg" id="sugg"></div>
+  </div>
+  <form class="compose" id="askForm">
+    <textarea id="askInput" placeholder="Escribe tu duda con tus palabras…" aria-label="Tu pregunta"></textarea>
+    <div class="row">
+      <a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Abrir Claude</a>
+      <button class="btn primary" type="submit" id="askSend">Copiar para Claude</button>
+    </div>
   </form>
+</aside>
+<div class="toast" id="toast" hidden></div>
 
-  <footer>Tus respuestas no se guardan en ningún servidor: solo en este dispositivo hasta que las envías.</footer>
-</main>
+<!-- Textos para copiar -->
+<script type="text/plain" id="tpl-A">Trabajo como inversor y gestor de patrimonio inmobiliario y financiero, con varias sociedades y un holding. Tengo gestor y abogado: tú me preparas el trabajo, ellos validan.
+
+Idioma: español. Si recibo material en otro idioma, tradúcelo primero. Si citas una cláusula en el idioma original, añade su traducción.
+
+Estilo: profesional, directo y práctico. Primero la conclusión y el siguiente paso. Usa listas, tablas o fichas cuando ayuden a comparar o decidir. Los textos para terceros, en formato plano y con el tono adecuado al destinatario.
+
+Autonomía: haz el trabajo preparatorio sin pedirme permiso para cada paso. Pregunta solo si falta un dato que cambie el resultado y sigue con lo que sí puedas hacer. No me preguntes por portadas, formatos ni añadidos que no cambien el resultado.
+
+Resultados comprobables: separa hechos, supuestos y pendientes de verificar. Indica fuentes y fechas, y cita página, cláusula o celda.
+
+Permisos por separado: aprobar un texto, crear el borrador en el correo y enviarlo son tres autorizaciones distintas. Nunca envíes, compartas, publiques, borres, pagues ni aceptes nada sin mi autorización expresa para esa acción.
+
+Costes: no uses ni propongas nada de pago sin explicarme antes para qué es, cuánto costaría como máximo y cuál es la alternativa gratuita.
+
+Continuidad: al terminar una tarea larga, déjame un "punto de reanudación" con lo revisado, lo pendiente y el siguiente paso, para retomarlo sin repetir trabajo.</script>
+
+<script type="text/plain" id="tpl-B">Recuerda esto sobre mi forma de trabajar:
+- Tengo unos 20 pisos en alquiler de larga duración a través de varias sociedades. Apenas dan trabajo. Lo más lioso son los suministros.
+- Invierto en inmuebles para reformar y vender, cambios de uso, subastas, compra de deuda, participaciones en empresas, bolsa y fondos, y préstamos a terceros. Estoy estudiando inversiones en Emiratos.
+- En inversión inmobiliaria, valora la salida desde el principio: rentabilidad neta, revalorización, demanda, financiación y liquidez. Compara la venta en bloque con la venta por unidades, teniendo en cuenta la independencia registral y la liberación de cargas.
+- Prefiero herramientas gratuitas o ya incluidas en mi plan.
+- La revisión de documentos se hace por lotes pequeños, con un punto de reanudación al final de cada uno. Nada de revisar el disco entero de golpe.
+- Mis archivos están repartidos entre Google Drive, OneDrive, carpetas del ordenador, el correo y WhatsApp. Estamos unificándolos en Google Drive.</script>
+
+<script type="text/plain" id="tpl-C1">Eres mi secretaría ejecutiva. Te encargas de la biblioteca documental, los expedientes, el correo, las conciliaciones y las comunicaciones.
+
+Biblioteca:
+- Estructura: Sociedad → Activo o inversión → Tipo de documento.
+- Nombres de archivo: AAAA-MM-DD_Sociedad_Activo_Tipo.
+- Trabaja siempre por lotes pequeños. Conserva los originales y nunca borres: si algo está duplicado, lo marcas y yo decido.
+- Extrae los datos indicando de qué documento y de qué página salen.
+- Los escaneos ilegibles y lo que no puedas abrir apúntalo como "pendiente de comprobar". No lo des por revisado.
+- Al acabar cada lote, deja un punto de reanudación.
+
+Conciliaciones: cruza facturas, albaranes, justificantes, correos y escaneos por fecha e importe y por referencia. Entrégame una tabla con lo que está acreditado, las discrepancias y lo que falta.
+
+Correo y WhatsApp: resume, ordena por asunto y saca los pendientes. Los chats de WhatsApp te los daré exportados.
+
+Comunicaciones: primero el texto en español. Espera a que lo apruebe. Luego la versión final o la traducción. Si cambio el texto en español, vuelve a pedirme aprobación. Crear el borrador en el correo y enviarlo son dos permisos distintos más.</script>
+
+<script type="text/plain" id="tpl-C2">Eres mi socio y director financiero. Me ayudas a analizar inversiones, gestionar el cash flow y preparar la financiación.
+
+Mi estructura: [holding y sociedades, qué tiene cada una], unos 20 pisos en alquiler y las inversiones en curso [lista].
+
+Cada análisis de inversión sigue estos pasos: objetivo → comparables y condiciones → coste total (compra, impuestos, notaría, registro, obra y financiación) → escenarios pesimista, base y optimista → rentabilidad (TIR, margen y múltiplo), riesgos y vías de salida → recomendación con sus supuestos.
+
+Valora siempre la salida desde el principio. Cuando aplique, compara la venta en bloque con la venta por unidades.
+
+Entrega:
+- Un Excel con los cálculos, para que yo pueda cambiar los supuestos.
+- Una ficha de decisión de una página: rentabilidad, riesgo, capital que inmoviliza, plazo y preguntas para mi gestor.
+
+Usa siempre el mismo formato, para que pueda comparar unas operaciones con otras.
+
+Cash flow: antes de recomendar una operación, dime cuánto capital puedo comprometer sin bajar del colchón de seguridad, que es de [importe].</script>
+
+<script type="text/plain" id="tpl-C3">Me ayudas con contratos, escrituras, fiscalidad, obras y expedientes o reclamaciones. Tengo gestor y abogado: tu trabajo es prepararme bien para hablar con ellos, no sustituirlos.
+
+En cada consulta:
+1. Cita la fuente: la norma y el artículo, la consulta vinculante de la DGT o la sentencia, con su fecha.
+2. Separa hechos, supuestos y lo que hay que verificar.
+3. Di cuánta seguridad tienes: "claro", "discutible" o "hay que confirmarlo".
+4. Termina con las preguntas concretas para mi gestor o mi abogado.
+
+Expedientes: lleva una cronología con las pruebas (documento y página), los plazos y los próximos pasos. En cada revisión, compara con la anterior y dime qué ha cambiado.
+
+Internacional (Emiratos y otros países): ten en cuenta el convenio de doble imposición y la residencia fiscal, y señala siempre lo que tiene que revisar un asesor de allí.</script>
+
+<script type="text/plain" id="tpl-CARPETA">Crea la carpeta C:\Orden. Será tu carpeta de trabajo para ordenar mis documentos: ahí guardarás tus scripts, listados y el punto de reanudación, nunca mis documentos. Cuando esté, confírmamelo y explícame en una línea cómo la abro en Code otro día para seguir.</script>
+
+<script type="text/plain" id="tpl-CHROME">Quiero tenerte en mi Google Chrome, con la extensión oficial de Claude. Haz tú todo lo que puedas para dejarlo instalado y conectado: abrirme la página correcta, activarlo desde esta app si se puede o comprobar que ha quedado bien.
+
+Lo que no puedas hacer tú, explícamelo paso a paso:
+- un paso cada vez, con el botón exacto que tengo que pulsar;
+- espera a que te diga "hecho" antes de darme el siguiente.
+
+Antes de que acepte nada, dime qué permisos me va a pedir la extensión y para qué sirve cada uno, en una línea. No aceptes nada en mi nombre.
+
+Al terminar, dime cómo te abro en Chrome y propónme una prueba sencilla para comprobar que funciona.</script>
+
+<script type="text/plain" id="tpl-WEB1">Analiza esta página como inversor inmobiliario:
+1. Los datos clave, citando lo que sacas de la página.
+2. Qué me puede afectar y por qué.
+3. Riesgos y oportunidades.
+4. Tres preguntas que debería hacerme antes de decidir nada.</script>
+
+<script type="text/plain" id="tpl-AYUDA">Vas a ser mi ayudante para configurar Claude y aprender a usarlo. Guarda este chat: volveré a él cada vez que me atasque.
+
+Quién soy: inversor inmobiliario y financiero, con unos 20 pisos de alquiler, varias sociedades y un holding. Uso Windows y la app de escritorio de Claude (pestañas Chat y Code), y también Claude en Chrome.
+
+Lo que estoy montando, siguiendo una guía paso a paso:
+- Chat: mis preferencias (Ajustes → Your Claude), mi memoria, conectores de correo, calendario y Drive, y tres proyectos: "Secretaría y documentación", "Mi director financiero" y "Fiscal, legal y reclamaciones".
+- Chrome: la extensión de Claude, para analizar páginas y hacer tareas en webs.
+- Code: ordenar los documentos de mi ordenador desde la carpeta C:\Orden. Nunca borra, me pide aprobar el plan antes de mover nada, apunta cada movimiento y deja un script para deshacerlo.
+- Tareas programadas: un resumen de noticias y mi agenda de cada mañana.
+
+Mis límites: en ChatGPT llegué a gastar unos 100 € al día. Por eso uso un plan de cuota fija, con el uso extra de pago (usage credits) desactivado, sin claves de API y con una sola tarea larga cada vez.
+
+Cómo quiero que me respondas:
+- En español, corto y con pasos numerados: un paso cada vez, con el botón exacto que tengo que pulsar.
+- Si no sabes con seguridad cómo se llama hoy un menú o un botón, dímelo y explícame cómo encontrarlo. No te lo inventes.
+- Nunca me recomiendes activar pagos extra, crear claves de API ni borrar archivos. Si algo es arriesgado, avísame claramente antes.
+
+Para empezar, confírmame en una línea que lo has entendido.</script>
+
+<script type="text/plain" id="tpl-ACTA">Te paso la transcripción de una reunión, con el nombre de cada persona y la hora de cada intervención. Si hay partes en otro idioma, tradúcelas al español y conserva la cita original cuando sea importante.
+
+Hazme:
+1. Resumen en cinco líneas: de qué se habló y cómo quedó.
+2. Acuerdos tomados.
+3. Tareas: qué, quién y para cuándo.
+4. Cifras, fechas y datos concretos que se dijeron, con quién lo dijo.
+5. Lo que quedó abierto o hay que comprobar.
+6. Mi siguiente paso.
+
+Separa lo que se dijo de tus interpretaciones. Si una frase no se entiende bien en la transcripción, márcala como dudosa en vez de adivinarla.
+
+--- TRANSCRIPCIÓN ---
+(pega aquí la transcripción o adjunta el archivo TXT o DOCX)</script>
+
+<script type="text/plain" id="tpl-ORDEN">Vas a ordenar los documentos de trabajo de mi ordenador. Es un trabajo largo: hazlo del tirón, por fases, sin pedirme permiso para cada paso. Solo te paras en un punto: antes de mover ningún archivo, para que apruebe el plan.
+
+CARPETA DE TRABAJO: C:\Orden. Aquí van tus scripts, listados, registros y el punto de reanudación. Nunca guardes aquí mis documentos.
+DESTINO: [DESTINO]. Aquí quedará todo ordenado.
+
+REGLAS QUE NO SE ROMPEN NUNCA
+1. No borres nada. Ni archivos ni carpetas. Lo que sobre va a [DESTINO]\_Duplicados o [DESTINO]\_Revisar.
+2. No leas los archivos uno a uno con tu propia lectura para hacer el inventario. Escribe scripts (PowerShell, que ya viene en Windows) que hagan el trabajo y lee tú solo sus resultados resumidos, por lotes.
+3. Fuera de alcance, sin tocar: Windows, Program Files, AppData, carpetas de programas, papelera y carpetas del sistema. Lo personal (fotos, vídeos, música, familia, ocio) tampoco se mueve: solo se marca como "Personal" en el inventario.
+4. No fuerces la descarga de archivos de Google Drive u OneDrive que estén solo en la nube. Apúntalos en una lista aparte.
+5. Si para algo necesitas instalar un programa, aunque sea gratuito (por ejemplo para leer el texto de los PDF), explícame para qué es y espera mi OK. Mientras tanto, sigue con lo demás.
+6. Cada movimiento queda registrado, y siempre existe un script para deshacerlo.
+7. Si un archivo da error (ruta demasiado larga, abierto, sin permiso), apúntalo y sigue. No te pares.
+8. Al terminar cada lote o fase, actualiza C:\Orden\ESTADO.md con lo hecho, lo pendiente y el siguiente paso exacto. Si te interrumpen, al volver lees ESTADO.md y sigues desde ahí.
+
+FASE 0. PREPARACIÓN
+- Si no existe la carpeta C:\Orden, créala.
+- Crea C:\Orden\CLAUDE.md con estas reglas y la descripción de las fases, para que cualquier sesión futura en esta carpeta las siga.
+- Crea C:\Orden\ESTADO.md.
+
+FASE A. INVENTARIO (solo lectura)
+- Localiza dónde hay documentos: Escritorio, Documentos, Descargas, carpetas de Google Drive y OneDrive, y otras unidades de datos que no sean del sistema. Apunta en ESTADO.md las que vas a recorrer.
+- Con un script, genera C:\Orden\inventario.csv con: ruta, nombre, extensión, tamaño, fecha de creación, fecha de modificación, huella (hash) y si está solo en la nube.
+- Detecta los duplicados exactos por hash y los nombres repetidos con contenido distinto.
+- Escribe C:\Orden\resumen_inventario.md: cuántos archivos hay, cuánto ocupan, de qué tipos, qué carpetas tienen más volumen, cuántos duplicados hay y cuánto liberarían, y qué está solo en la nube.
+
+FASE B. PLAN (solo lectura)
+- Estructura de destino:
+  [DESTINO]\Sociedad\Activo o inversión\Tipo de documento
+  Tipos: Escrituras y registro, Contratos, Suministros, Impuestos, Bancos y financiación, Obras, Seguros, Correspondencia, Análisis de inversión, Otros.
+  Más [DESTINO]\00_Entrada, [DESTINO]\_General (lo que es de varias sociedades o de ninguna), [DESTINO]\_Revisar y [DESTINO]\_Duplicados.
+- Nombre de cada archivo: AAAA-MM-DD_Sociedad_Activo_Tipo_descripción-corta.ext
+  La fecha es la del documento si se deduce del nombre o del contenido. Si no, la de modificación.
+- Para clasificar, usa por este orden:
+  1. La ruta y el nombre actuales.
+  2. Las fechas.
+  3. Si hace falta, el texto de la primera página, sacado con un script (en los PDF escaneados sin texto, márcalos para OCR).
+  Trabaja por lotes de unos 200 archivos.
+- Saca de los propios documentos la lista de sociedades y activos (direcciones, referencias catastrales, nombres de sociedades) y escríbela en C:\Orden\sociedades_y_activos.md para que yo la corrija.
+- Genera C:\Orden\plan_movimientos.csv con: ruta actual, ruta y nombre nuevos, motivo de la clasificación, y confianza (alta, media o baja). Lo de confianza baja va a _Revisar.
+- Escribe C:\Orden\resumen_plan.md, para leerlo en 5 minutos:
+  - la estructura propuesta, con el número de archivos por carpeta;
+  - 10 ejemplos de antes y después;
+  - qué va a _Revisar y por qué;
+  - qué va a _Duplicados;
+  - las dudas que solo yo puedo resolver.
+- PARA AQUÍ. Avísame de que el plan está listo y espera a que te diga "apruebo el plan". Si te pido cambios, ajusta el plan y vuelve a resumírmelo.
+
+FASE C. EJECUCIÓN (solo tras mi aprobación)
+- Antes de mover nada, genera C:\Orden\deshacer.ps1, que devuelve cada archivo a su sitio original, y explícame en una línea cómo se ejecuta.
+- Mueve los archivos según el plan, por lotes, y regístralo todo en C:\Orden\log_movimientos.csv (origen, destino, hash, fecha y hora, resultado).
+- Al final, comprueba que cada archivo movido está en su destino con el mismo hash, y que el número de archivos cuadra con el plan.
+- Escribe C:\Orden\resumen_ejecucion.md con lo movido, los errores y lo que queda en _Revisar.
+
+FASE D. FICHAS DE CADA ACTIVO (por lotes, con punto de reanudación)
+- Por cada activo o inversión, lee solo los documentos clave (escrituras, contratos de alquiler, préstamos e hipotecas, suministros, seguros, impuestos) y crea:
+  - [DESTINO]\Sociedad\Activo\FICHA.md con los datos clave (dirección, referencia catastral, sociedad titular, fecha y precio de compra, inquilino y vencimiento del contrato, renta, hipoteca o préstamo, suministros con su CUPS y comercializadora, seguro, IBI) y, en cada dato, el documento y la página de donde sale;
+  - una fila por activo en [DESTINO]\Fichas_activos.xlsx.
+- Lo que no encuentres o no puedas leer lo marcas como "pendiente de comprobar". Nunca te inventes un dato.
+- Haz un activo detrás de otro y actualiza ESTADO.md tras cada uno.
+
+AL TERMINAR
+Escribe C:\Orden\INFORME_FINAL.md con:
+- qué había, qué se ha hecho y dónde está cada cosa;
+- lo que necesita mi revisión;
+- cómo usar 00_Entrada a partir de ahora;
+- cómo deshacer los cambios si hiciera falta.</script>
 
 <script>
 (function () {
-  var form = document.getElementById('f');
-  var KEY = 'cuestionario-previo-v1';
-  var fields = Array.prototype.slice.call(form.querySelectorAll('input, textarea'));
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var tpl = function (id) { return document.getElementById("tpl-" + id).textContent.trim(); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  var KEY = "arranqueClaude";
 
-  function save() {
-    var data = fields.map(function (el) {
-      return (el.type === 'checkbox' || el.type === 'radio') ? el.checked : el.value;
+  var TOPICS = [
+    "Subastas (BOE)", "Compra de deuda y carteras NPL", "Mercado inmobiliario de mi zona",
+    "Fiscalidad de sociedades y holdings", "Ley de vivienda y alquiler", "Euríbor y financiación",
+    "Inversión en Emiratos (EAU)", "Subvenciones y ayudas"
+  ];
+  var DEFAULTS = {
+    done: {}, skip: {}, current: "inicio",
+    correo: "",
+    destino: "", destinoOtro: "",
+    temas: TOPICS.slice(0, 6), temasExtra: "", zona: "", newsFreq: "Lunes y jueves", newsHora: "08:00",
+    agenda: "", agendaHora: "07:30", provincia: "",
+    c2tab: "C1", reunion: ""
+  };
+  var S = JSON.parse(JSON.stringify(DEFAULTS));
+
+  /* ---------- Contenido de los pasos ---------- */
+  var BLOCKS = [
+    { id: "b0", name: "Empieza aquí" },
+    { id: "b1", name: "Chat · Déjalo listo y seguro" },
+    { id: "bc", name: "Chrome · Claude en tu navegador" },
+    { id: "b3", name: "Code · Tu ordenador se ordena" },
+    { id: "b4", name: "Chat · Tareas automáticas" },
+    { id: "bm", name: "Reuniones · Traducción y notas" },
+    { id: "b5", name: "Tu día a día" }
+  ];
+  var P = function (t) { return '<span class="path">' + t + "</span>"; };
+
+  function correoLabel() {
+    return { gmail: "Gmail", outlookp: "Outlook", outlooke: "Outlook", nose: "tu correo" }[S.correo] || "tu correo";
+  }
+  function destinoVal() {
+    if (S.destino === "drive") return "G:\\Mi unidad\\Patrimonio";
+    if (S.destino === "local") return "C:\\Patrimonio";
+    if (S.destino === "otro") return S.destinoOtro.trim();
+    return "";
+  }
+  function newsPrompt() {
+    var temas = S.temas.slice();
+    if (S.temasExtra.trim()) temas.push(S.temasExtra.trim());
+    var lista = temas.map(function (t) {
+      return (t === "Mercado inmobiliario de mi zona" && S.zona.trim()) ? "Mercado inmobiliario de " + S.zona.trim() : t;
     });
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    return "Programa una tarea: " + S.newsFreq.toLowerCase() + " a las " + S.newsHora + ", búscame las noticias publicadas desde el resumen anterior sobre estos temas:\n" +
+      lista.map(function (t) { return "- " + t; }).join("\n") +
+      "\n\nPara cada noticia: titular, qué pasa en dos líneas, por qué me afecta como inversor y la fuente con enlace y fecha. Máximo 10 noticias, las más relevantes primero. No repitas lo que ya salió en el resumen anterior. Si una fuente no se ha podido comprobar, dilo.";
   }
-  function load() {
-    var raw = null;
-    try { raw = localStorage.getItem(KEY); } catch (e) {}
-    if (!raw) return;
-    try {
-      var data = JSON.parse(raw);
-      if (!Array.isArray(data) || data.length !== fields.length) return;
-      fields.forEach(function (el, i) {
-        if (el.type === 'checkbox' || el.type === 'radio') el.checked = !!data[i];
-        else el.value = data[i] || '';
-      });
-    } catch (e) {}
+  function agendaPrompt() {
+    var fuente = (S.correo === "outlookp" || S.correo === "outlooke") ? "mi calendario y mi correo de Outlook" : "mi Google Calendar y mi Gmail";
+    return "Programa una tarea: cada día laborable a las " + S.agendaHora + ", revisa " + fuente + " (citas de hoy y mañana, correos de las últimas 24 horas) y dame en una sola pantalla:\n" +
+      "1. Mis citas, con hora, lugar y qué preparar para cada una.\n" +
+      "2. Los correos que necesitan respuesta mía, con una línea de resumen.\n" +
+      "3. Vencimientos o plazos de esta semana.\n\n" +
+      "No envíes nada, no crees borradores y no aceptes ni cambies citas.";
   }
-  load();
-  form.addEventListener('input', save);
-  form.addEventListener('change', save);
+  function tool(name, badge, alt, text, url) {
+    return '<div class="tool"><h3>' + esc(name) + (badge ? ' <span class="badge' + (alt ? " alt" : "") + '">' + esc(badge) + "</span>" : "") + "</h3><p>" + text + "</p>" +
+      (url ? '<p><a href="' + url + '" target="_blank" rel="noopener">' + esc(url.replace(/^https?:\/\//, "").replace(/\/$/, "")) + " ↗</a></p>" : "") + "</div>";
+  }
 
-  function summary() {
-    var out = ['*Cuestionario previo a la reunión*'];
-    form.querySelectorAll('section[data-section]').forEach(function (sec) {
-      var lines = [];
-      sec.querySelectorAll('fieldset[data-q]').forEach(function (fs) {
-        var vals = [];
-        fs.querySelectorAll('input[type=checkbox]:checked, input[type=radio]:checked').forEach(function (el) {
-          vals.push(el.value);
-        });
-        fs.querySelectorAll('input[type=text], textarea').forEach(function (el) {
-          var v = el.value.trim();
-          if (v) vals.push(el.hasAttribute('data-other') ? 'Otro: ' + v : v);
-        });
-        if (vals.length) lines.push('• ' + fs.getAttribute('data-q') + ': ' + vals.join('; '));
-      });
-      if (lines.length) out.push('', '*' + sec.getAttribute('data-section') + '*', lines.join('\n'));
+  var STEPS = [
+    { id: "inicio", block: "b0", tag: "prep", time: "2 min", title: "Cómo usar esta guía",
+      why: "Ya vimos juntos cómo funciona. Ahora lo montas tú con tu propio Claude, a tu ritmo y con tus datos reales.",
+      how: ["Ve paso a paso. Cuando acabes uno, pulsa <b>Hecho, siguiente</b>.", "Si un paso no te interesa ahora, pulsa <b>Para otro día</b> y sigue.", "Los textos con botón <b>Copiar</b> se pegan tal cual en Claude.", "Si te atascas, pulsa <b>¿Dudas?</b> arriba a la derecha."],
+      body: function () {
+        return '<div class="field"><label>¿Cuál es tu correo principal?</label><div class="options" role="group" aria-label="Correo">' +
+        [["gmail", "Gmail"], ["outlookp", "Outlook personal (Hotmail, Outlook.com)"], ["outlooke", "Outlook de empresa"], ["nose", "No lo sé"]].map(function (o) {
+          return '<button type="button" class="opt" data-set="correo" data-val="' + o[0] + '" aria-pressed="' + (S.correo === o[0]) + '">' + o[1] + "</button>";
+        }).join("") + "</div></div>" +
+        '<div class="note tip"><b>Lo que marques se queda en este navegador</b><span>Si cierras la página y vuelves desde el mismo ordenador y el mismo Chrome, sigues donde lo dejaste. Desde otro ordenador empezarías de cero, pero los textos son los mismos.</span></div>';
+      } },
+
+    { id: "entrar", block: "b1", tag: "chat", time: "2 min", title: "Entra en Claude",
+      why: "Con tu cuenta, en la app de escritorio.",
+      how: ["Abre la app <b>Claude</b> en el ordenador. Si no la tienes, descárgala de " + '<a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a>' + ".", "Pulsa <b>Iniciar sesión</b> con tu correo.", "Arriba verás varias pestañas: casi todo va en " + P("Chat") + "; el orden del ordenador, en " + P("Code") + "."] },
+
+    { id: "plan", block: "b1", tag: "chat", time: "3 min", title: "Elige el plan",
+      why: "Una cuota fija al mes. Max el primer mes, mientras lo montas todo, y luego Pro.",
+      how: ["Elige el plan <b>Max</b>.", "Mete tú la tarjeta."],
+      note: { kind: "tip", title: "Por qué Max el primer mes", text: "El primer mes trabaja mucho: ordenar el ordenador y montar las plantillas. Luego se baja a Pro." } },
+
+    { id: "gasto", block: "b1", tag: "chat", time: "1 min", title: "Corta el gasto extra",
+      why: "Pagas la cuota y punto. Si un día se acaba el uso del plan, Claude espera; no te cobra más.",
+      how: ["Abre " + P("Ajustes → Usage") + ".", "Desactiva <b>usage credits</b> (uso extra de pago).", "No crees claves de API ni entres en la “Console”."],
+      note: { kind: "warn", title: "Lo de los 100 € al día no puede volver a pasar", text: "Si alguna vez Claude ofrece “créditos de API” o pagar por más uso, la respuesta es no." } },
+
+    { id: "privacidad", block: "b1", tag: "chat", time: "1 min", title: "Protege tus datos",
+      why: "Tus conversaciones y lo que Claude lea de tu correo no se usan para entrenar a la IA.",
+      how: ["Abre " + P("Ajustes → Privacidad") + ".", "Desactiva la opción de <b>ayudar a mejorar Claude</b> con tus conversaciones."],
+      note: { kind: "warn", title: "Antes de conectar el correo", text: "Haz este paso siempre antes del paso de conectores." } },
+
+    { id: "ayuda", block: "b1", tag: "chat", time: "3 min", title: "Tu ayudante para dudas",
+      why: "El recuadro de preguntas de esta guía estaba conectado al Claude de Marcos. Ahora te montas el tuyo: un chat que ya sabe qué estás configurando y cómo quieres que te conteste.",
+      how: ["En la pestaña " + P("Chat") + ", empieza un chat nuevo.", "Copia el texto de abajo, pégalo y envía.", "Renombra ese chat como <b>Ayuda con Claude</b> (menú del chat → Renombrar) y fíjalo arriba si te deja.", "Cuando te atasques, pulsa <b>¿Dudas?</b> en esta guía, escribe tu duda, pulsa <b>Copiar para Claude</b> y pégala en ese chat."],
+      copies: [{ id: "AYUDA", label: "Configura tu ayudante" }] },
+
+    { id: "reglas", block: "b1", tag: "chat", time: "3 min", title: "Tus reglas de siempre",
+      why: "Las reglas que tenías en ChatGPT, ahora en Claude: español, primero la conclusión, hechos separados de supuestos y nada sale sin tu permiso.",
+      how: ["Abre " + P("Ajustes → Your Claude") + ".", "Pulsa <b>Copiar</b> abajo y pégalo en el campo de preferencias o instrucciones.", "Guarda. Puedes cambiar el texto cuando quieras."],
+      copies: [{ id: "A", label: "Tus reglas" }] },
+
+    { id: "memoria", block: "b1", tag: "chat", time: "3 min", title: "Tu memoria",
+      why: "Lo que Claude tiene que saber de ti desde el primer día, para no explicárselo cada vez.",
+      how: ["En " + P("Ajustes → Your Claude") + " pulsa <b>Start import</b>.", "Copia el texto de abajo, cámbialo o amplíalo si quieres, pégalo y pulsa <b>Add to memory</b>.", "Abre <b>Manage</b> y comprueba que lo ha guardado."],
+      copies: [{ id: "B", label: "Tu memoria" }],
+      note: { kind: "tip", title: "Si no aparece el botón de importar", text: "Abre un chat nuevo y pega el texto tal cual: empieza por “Recuerda esto…”." } },
+
+    { id: "conectores", block: "b1", tag: "chat", time: "5 min", title: "Conecta tu correo y tus documentos",
+      why: "Así Claude puede buscar en tu correo, tu calendario y tu Drive cuando se lo pidas. Solo lee, y solo cuando le preguntas.",
+      how: function () {
+        var l = ["Abre " + P("Ajustes → Conectores") + "."];
+        if (S.correo === "outlookp") l.push("Conecta <b>Microsoft 365</b> con tu cuenta de Outlook.", "Conecta también <b>Google Drive</b> y <b>Google Calendar</b> si los usas.");
+        else if (S.correo === "outlooke") l.push("Conecta <b>Google Drive</b> y <b>Google Calendar</b>.", "El Outlook de empresa necesita que quien administra el correo de tu empresa autorice a Claude: pídeselo.");
+        else l.push("Conecta <b>Google</b>: Gmail, Google Calendar y Google Drive.", "Si usas Outlook personal, conecta también <b>Microsoft 365</b>.");
+        l.push("Inicia sesión y acepta los permisos.", "Para comprobarlo, en un chat nuevo: " + P("+ → Conectores") + ", activa " + esc(correoLabel()) + " y pregúntale por un correo concreto que sepas que tienes.");
+        return l;
+      },
+      note: { kind: "tip", title: "Si da error", text: "Si tu Google es de empresa, puede que un administrador tenga que autorizar a Claude. Sigue con lo demás y retómalo después." } },
+
+    { id: "proyectos", block: "b1", tag: "chat", time: "10 min", title: "Tus tres proyectos",
+      why: "Los mismos que tenías en ChatGPT, cada uno con sus instrucciones: secretaría, inversiones y fiscal-legal. Ahí trabajas ya con tus documentos y operaciones reales.",
+      how: ["En la barra lateral: " + P("Proyectos → Nuevo proyecto") + ".", "Ponle el nombre, pega sus instrucciones y guarda.", "Repite con los tres.", "Sube a cada proyecto los documentos que uses siempre (plantillas, tu Excel de alquileres…). Mejor pocos y buenos que muchos."],
+      body: function () {
+        var names = { C1: "Secretaría y documentación", C2: "Mi director financiero", C3: "Fiscal, legal y reclamaciones" };
+        var t = S.c2tab;
+        return '<div class="tabs" role="tablist">' + ["C1", "C2", "C3"].map(function (k) {
+          return '<button type="button" role="tab" data-c2="' + k + '" aria-selected="' + (t === k) + '">' + names[k] + "</button>";
+        }).join("") + "</div>" +
+        copyBlock(t, "Nombre: " + names[t]) +
+        (t === "C2" ? '<div class="note tip"><b>Lo que va entre [corchetes]</b><span>Tus sociedades, inversiones y colchón de seguridad. Rellénalo antes de pegarlo, o después desde las instrucciones del proyecto. Solo lo ves tú.</span></div>' : "");
+      } },
+
+    { id: "chrome", block: "bc", tag: "chrome", time: "10 min", title: "Pídele a Claude que se ponga en tu Chrome",
+      why: "Claude dentro de tu navegador: lee la página que tienes abierta y hace tareas en webs por ti. Se lo pides a Claude, que hace lo que puede y te guía en lo demás.",
+      how: ["En la app de Claude, pestaña " + P("Chat") + ", empieza un chat nuevo.", "Copia el texto de abajo y envía.", "Haz lo que te vaya diciendo, de uno en uno, y contéstale “hecho”. Los clics de instalar y aceptar permisos son tuyos: Chrome no deja que nadie más los haga."],
+      copies: [{ id: "CHROME", label: "Pedirle que se instale en Chrome" }],
+      note: { kind: "warn", title: "Reglas para usarlo", text: "Solo en webs de confianza. Nunca le pidas que entre en tu banco, pague, compre o meta contraseñas. Las acciones delicadas (descargas, datos sensibles, borrar) siempre te las pregunta antes." } },
+
+    { id: "web1", block: "bc", tag: "chrome", time: "5 min", title: "Que te explique una página",
+      why: "Abres cualquier web que te interese y Claude te la explica como inversor, sin copiar ni pegar nada.",
+      how: ["En Chrome, abre la página: una noticia, un anuncio de un portal inmobiliario, la ficha de una subasta…", "Pulsa el icono de Claude: se abre a la derecha.", "Copia el texto de abajo y envía. Guárdalo: te servirá muchas veces."],
+      copies: [{ id: "WEB1", label: "Analizar esta página" }] },
+
+    { id: "web2", block: "bc", tag: "chrome", time: "10 min", title: "Que haga una tarea por ti",
+      why: "Aquí no solo lee: navega. Entra en el portal de subastas del BOE, busca, filtra y te devuelve una tabla con enlaces.",
+      how: ["Escribe la provincia abajo. El texto se actualiza solo.", "En Chrome, abre el panel de Claude, copia el texto y envía.", "Si te pide permiso para usar esa web: <b>permite solo para este sitio</b>. Puedes ver cómo navega en la pestaña."],
+      body: function () {
+        return '<div class="field"><label for="prov">Provincia</label><input type="text" id="prov" data-input="provincia" placeholder="Por ejemplo: Sevilla" value="' + esc(S.provincia || "") + '"></div>' +
+          copyBlock("WEB2", "Subastas del BOE", "Solo mira: no puja ni se registra");
+      },
+      note: { kind: "tip", title: "Si se atasca", text: "Algunas webs piden verificar que no eres un robot. Eso lo haces tú: Claude no puede ni debe resolverlo. Después dile “sigue”." } },
+
+    { id: "carpeta", block: "b3", tag: "code", time: "3 min", title: "Pídele que prepare su carpeta",
+      why: "La carpeta no la creas tú: se lo pides a Claude. Ahí guardará sus listados y por dónde va. Tus documentos no se guardan ahí.",
+      how: ["En la app de Claude, abre la pestaña " + P("Code") + ".", "Cuando pida una carpeta para empezar, elige " + P("Documentos") + ".", "Copia el texto de abajo y envía. Cuando pida permiso para crear la carpeta, acepta."],
+      copies: [{ id: "CARPETA", label: "Crear la carpeta de trabajo" }],
+      note: { kind: "code", title: "Si pide algo", text: "Si pide instalar algo para funcionar en Windows (por ejemplo Git, que es gratuito), pídele que te explique para qué es y acéptalo. Si ofrece créditos de API, di que no: usa la cuota de tu plan." } },
+
+    { id: "destino", block: "b3", tag: "code", time: "2 min", title: "Elige dónde queda todo",
+      why: "La carpeta donde quedarán tus documentos ordenados: por sociedad, luego por inmueble y luego por tipo de documento.",
+      body: function () {
+        return '<div class="options" role="group" aria-label="Destino">' +
+          [["drive", "En Google Drive", "G:\\Mi unidad\\Patrimonio"], ["local", "En el ordenador", "C:\\Patrimonio"], ["otro", "Otra carpeta", ""]].map(function (o) {
+            return '<button type="button" class="opt" data-set="destino" data-val="' + o[0] + '" aria-pressed="' + (S.destino === o[0]) + '">' + o[1] + (o[2] ? ' · <span style="font-family:var(--font-mono);font-size:.85em">' + esc(o[2]) + "</span>" : "") + "</button>";
+          }).join("") + "</div>" +
+          (S.destino === "otro" ? '<div class="field"><label for="destOtro">Ruta de la carpeta</label><input type="text" id="destOtro" data-input="destinoOtro" placeholder="Por ejemplo D:\\Patrimonio" value="' + esc(S.destinoOtro) + '"></div>' : "") +
+          '<div class="note tip"><b>¿Cuál elegir?</b><ul><li><b>Google Drive</b>: queda ordenado y en la nube a la vez. Si hay mucho volumen, tardará en subir.</li><li><b>En el ordenador</b>: más rápido. Se sube a Drive más adelante.</li></ul></div>';
+      } },
+
+    { id: "lanzar", block: "b3", tag: "code", time: "5 min", title: "Tu ordenador se ordena",
+      why: "Hace inventario y te propone el plan. No mueve nada hasta que lo apruebes, y nunca borra. Puede trabajar solo durante horas.",
+      how: ["En Code, empieza una conversación nueva en " + P("C:\\Orden") + ".", "Copia el texto de abajo (ya lleva tu carpeta de destino), pégalo y envía.", "Cuando pida permiso para <b>leer carpetas o hacer el inventario</b>: acepta."],
+      body: function () {
+        var d = destinoVal();
+        if (!d) return '<div class="note warn"><b>Falta elegir el destino</b><span>Vuelve al paso anterior y elige dónde queda todo.</span></div>';
+        return copyBlock("ORDEN", "Ordenar tu ordenador", "Destino: " + d);
+      },
+      note: { kind: "warn", title: "Nunca", text: "Si alguna vez pide permiso para borrar, la respuesta es no. Para mover archivos, solo después de aprobar el plan." } },
+
+    { id: "despues", block: "b3", tag: "code", time: "2 min", title: "Qué pasa después",
+      why: "Primero hace el inventario y el plan, que solo leen; luego te avisa.",
+      how: ["Cuando avise, abre " + P("C:\\Orden\\resumen_plan.md") + " y léelo (5 minutos).", "Si algo no te cuadra, díselo con tus palabras.", "Cuando esté bien, escribe " + P("apruebo el plan") + ". Mueve, comprueba y te hace una ficha de cada inmueble.", "Si se para o lo dejas a medias: Code → " + P("C:\\Orden") + " → escribe " + P("sigue") + "."],
+      note: { kind: "tip", title: "Tranquilidad", text: "Cada movimiento queda apuntado y existe un script para deshacerlo todo. Los duplicados van a una carpeta aparte." } },
+
+    { id: "noticias", block: "b4", tag: "chat", time: "5 min", title: "Noticias que te interesan",
+      why: "Un resumen automático con lo que te importa como inversor, sin tener que buscarlo.",
+      how: ["Elige abajo los temas, los días y la hora.", "Abre el proyecto " + P("Mi director financiero") + ", empieza un chat nuevo, pega el texto y envía.", "Claude te propone la tarea programada: revisa el día y la hora y acepta. También se puede crear desde " + P("Scheduled") + ", en la barra lateral."],
+      body: function () {
+        return '<div class="field"><label>Temas</label><div class="options" role="group" aria-label="Temas">' + TOPICS.map(function (t) {
+          return '<button type="button" class="opt" data-topic="' + esc(t) + '" aria-pressed="' + (S.temas.indexOf(t) >= 0) + '">' + esc(t) + "</button>";
+        }).join("") + "</div></div>" +
+        (S.temas.indexOf("Mercado inmobiliario de mi zona") >= 0 ? '<div class="field"><label for="zona">¿Qué zona?</label><input type="text" id="zona" data-input="zona" placeholder="Ciudad o provincia" value="' + esc(S.zona) + '"></div>' : "") +
+        '<div class="field"><label for="extra">Otro tema</label><input type="text" id="extra" data-input="temasExtra" placeholder="Por ejemplo: empresas del sector X" value="' + esc(S.temasExtra) + '"></div>' +
+        '<div class="field"><label>¿Cada cuánto?</label><div class="options" role="group">' + ["Cada día laborable", "Lunes y jueves", "Cada lunes"].map(function (f) {
+          return '<button type="button" class="opt" data-set="newsFreq" data-val="' + f + '" aria-pressed="' + (S.newsFreq === f) + '">' + f + "</button>";
+        }).join("") + '</div></div><div class="field"><label for="nh">Hora</label><input type="time" id="nh" data-input="newsHora" value="' + esc(S.newsHora) + '"></div>' +
+        copyBlock("NEWS", "Tarea de noticias", "Se actualiza con lo que elijas");
+      } },
+
+    { id: "agenda", block: "b4", tag: "chat", time: "5 min", title: "Tu agenda cada mañana",
+      why: "Cada día laborable, de un vistazo: tus citas, los correos que esperan respuesta y los plazos de la semana.",
+      body: function () {
+        var q = '<div class="field"><label>¿La quieres?</label><div class="options" role="group">' +
+          [["si", "Sí, prepárala"], ["no", "Ahora no"]].map(function (o) {
+            return '<button type="button" class="opt" data-set="agenda" data-val="' + o[0] + '" aria-pressed="' + (S.agenda === o[0]) + '">' + o[1] + "</button>";
+          }).join("") + "</div></div>";
+        if (S.agenda === "no") return q + '<div class="note tip"><b>Sin problema</b><span>Se puede añadir cualquier día: vuelve a este paso y elige “Sí”.</span></div>';
+        if (S.agenda !== "si") return q;
+        return q + '<div class="field"><label for="ah">Hora</label><input type="time" id="ah" data-input="agendaHora" value="' + esc(S.agendaHora) + '"></div>' +
+          '<ol class="how"><li><span>Abre el proyecto ' + P("Secretaría y documentación") + ' y empieza un chat nuevo.</span></li><li><span>Pega el texto y envía. Revisa la hora y acepta la tarea.</span></li></ol>' +
+          copyBlock("AGENDA", "Tarea de agenda", "Solo lee: no envía ni cambia nada");
+      } },
+
+    { id: "traduccion", block: "bm", tag: "meet", time: "10 min", title: "Traducción simultánea y notas",
+      why: "Una herramienta que traduce mientras se habla, separa lo que dice cada persona y te deja la transcripción para analizarla después con Claude. Claude no hace la traducción en directo: para eso se usa una de estas.",
+      body: function () {
+        var opts = '<div class="field"><label>¿Cómo son tus reuniones?</label><div class="options" role="group">' +
+          [["online", "Online (Zoom, Meet, Teams)"], ["presencial", "En persona"], ["ambas", "De las dos"]].map(function (o) {
+            return '<button type="button" class="opt" data-set="reunion" data-val="' + o[0] + '" aria-pressed="' + (S.reunion === o[0]) + '">' + o[1] + "</button>";
+          }).join("") + "</div></div>";
+        var on = S.reunion !== "presencial", pr = S.reunion !== "online";
+        var html = opts + '<div class="tools">';
+        if (on) {
+          html += tool("JotMe", "Recomendada · online", false, "La que más se acerca a lo que buscas: traduce mientras se habla, separa y pone nombre a cada persona, guarda la transcripción en los dos idiomas y te deja añadir tu vocabulario (nombres, términos del negocio). Es una app de escritorio y no mete ningún bot en la llamada.", "https://www.jotme.io/") +
+            tool("Notta o Tactiq", "Alternativa · online", true, "Separan por persona y exportan en PDF o TXT, pero traducen después de la reunión, no en directo. Sirven si lo importante son las notas y no la traducción en el momento.") +
+            tool("Transync AI", "Otra opción", true, "También traduce en directo entre inglés y español y exporta subtítulos, pero la información que dan es bastante vaga. Solo si las otras no te convencen.");
+        }
+        if (pr) {
+          html += tool("Microsoft Translator · modo Conversación", "Recomendada · en persona", false, "Gratis. Cada persona entra desde su móvil con un código de sesión, así que cada intervención queda a nombre de quien habla, y al final se puede guardar la conversación. Es lo más fiable para separar por personas en una misma sala.") +
+            tool("Google Traductor o DeepL Voice", "Para algo rápido", true, "Traducen bien en persona, pero no separan por personas ni sirven para reuniones largas.");
+        }
+        html += "</div>" +
+          '<div class="note tip"><b>Antes de decidir</b><span>Haz una prueba real con tus idiomas. Casi todas las comparativas las escriben los propios fabricantes y no hay pruebas independientes de lo bien que separan a las personas en español. Si alguna es de pago, mira el precio antes y prueba primero la versión gratuita.</span></div>' +
+          '<div class="note warn"><b>Avisa siempre antes de grabar</b><span>Hay que avisar a los asistentes y tener su consentimiento antes de grabar o transcribir una reunión. Lo exige la ley de protección de datos (RGPD).</span></div>';
+        return html;
+      } },
+
+    { id: "actas", block: "bm", tag: "meet", time: "5 min", title: "Analiza la reunión con Claude",
+      why: "Con la transcripción en la mano, Claude te saca el resumen, los acuerdos, las tareas de cada uno y los datos que se dijeron.",
+      how: ["Al acabar la reunión, exporta la transcripción en <b>TXT o DOCX</b>, con el nombre de cada persona y la hora.", "Abre el proyecto que toque (por ejemplo " + P("Mi director financiero") + " si es una operación) y empieza un chat nuevo.", "Copia el texto de abajo, adjunta el archivo (o pégalo al final) y envía.", "Guarda las transcripciones en una carpeta fija, por ejemplo dentro de " + P("00_Entrada") + ", para poder comparar reuniones más adelante."],
+      copies: [{ id: "ACTA", label: "Analizar una reunión" }] },
+
+    { id: "cierre", block: "b5", tag: "prep", time: "5 min", title: "Tu día a día",
+      why: "Lo que ya tienes funcionando y cómo seguir solo.",
+      body: function () {
+        var rows = STEPS.filter(function (s) { return s.id !== "cierre" && s.id !== "inicio"; }).map(function (s) {
+          var st = S.done[s.id] ? "done" : (S.skip[s.id] ? "skip" : "");
+          return '<div class="sum-row ' + st + '"><span class="dot">' + (st === "done" ? "✓" : "") + '</span><span><a href="#' + s.id + '" data-go="' + s.id + '">' + esc(s.title) + "</a>" + (st === "skip" ? ' <small style="color:var(--muted)">(para otro día)</small>' : "") + "</span></div>";
+        }).join("");
+        return '<div class="sum">' + rows + "</div>" +
+          '<div class="note code"><b>Lo pendiente</b><ul><li>Cuando Claude avise, lee <span class="path">C:\\Orden\\resumen_plan.md</span> y responde “apruebo el plan” o lo que quieras cambiar.</li><li>Lo que dejaste “para otro día” está arriba: pulsa su nombre para volver.</li></ul></div>' +
+          '<div class="note tip"><b>Cada día</b><ul><li>Cada tema, en su proyecto: secretaría, inversiones o fiscal-legal.</li><li>Una tarea larga cada vez. Si se corta, escribe “sigue”.</li><li>Las dudas, a tu chat “Ayuda con Claude”.</li><li>Nunca actives pagos extra ni claves de API.</li></ul></div>' +
+          '<div class="row"><button type="button" class="btn" data-reset="1">Empezar la guía de cero</button></div>';
+      } }
+  ];
+
+  var TEXT = {
+    A: function () { return tpl("A"); }, B: function () { return tpl("B"); },
+    C1: function () { return tpl("C1"); }, C2: function () { return tpl("C2"); }, C3: function () { return tpl("C3"); },
+    AYUDA: function () { return tpl("AYUDA"); }, ACTA: function () { return tpl("ACTA"); },
+    CARPETA: function () { return tpl("CARPETA"); },
+    CHROME: function () { return tpl("CHROME"); },
+    WEB1: function () { return tpl("WEB1"); },
+    WEB2: function () {
+      var prov = (S.provincia || "").trim() || "[provincia]";
+      return "En el Portal de Subastas del BOE (subastas.boe.es), busca subastas de bienes inmuebles en la provincia de " + prov + " que estén abiertas ahora.\n\n" +
+        "Hazme una tabla con las 10 primeras: referencia, tipo de inmueble, localidad, valor de subasta, depósito, fecha de fin y el enlace a cada una. Debajo, dime cuáles mirarías primero como inversor y por qué.\n\n" +
+        "Solo mirar: no te registres, no pujes, no rellenes datos personales y no descargues nada.";
+    },
+    ORDEN: function () { return tpl("ORDEN").split("[DESTINO]").join(destinoVal() || "[DESTINO]"); },
+    NEWS: newsPrompt, AGENDA: agendaPrompt
+  };
+
+  function copyBlock(id, label, sub) {
+    return '<div class="copy" data-copy-wrap="' + id + '"><div class="copy-h"><span>' + esc(label) + "</span>" + (sub ? "<small>" + esc(sub) + "</small>" : "") +
+      '<button type="button" class="btn" data-more="' + id + '">Ver todo</button><button type="button" class="btn primary" data-copy="' + id + '">Copiar</button></div><pre>' + esc(TEXT[id]()) + "</pre></div>";
+  }
+
+  /* ---------- Render ---------- */
+  function idx(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return 0; }
+  function cur() { return STEPS[idx(S.current)]; }
+
+  function renderRail() {
+    var html = BLOCKS.map(function (b) {
+      var list = STEPS.filter(function (s) { return s.block === b.id; });
+      return '<div class="block"><div class="block-h">' + esc(b.name) + '</div><ol class="steps">' + list.map(function (s) {
+        var n = idx(s.id);
+        var cls = S.done[s.id] ? "done" : (S.skip[s.id] ? "skip" : "");
+        return '<li><button type="button" data-go="' + s.id + '" class="' + cls + '"' + (s.id === S.current ? ' aria-current="step"' : "") + '><span class="dot">' + (S.done[s.id] ? "✓" : n + 1) + "</span><span>" + esc(s.title) + "</span></button></li>";
+      }).join("") + "</ol></div>";
+    }).join("");
+    $("#railList").innerHTML = html;
+    $("#railCurrent").textContent = (idx(S.current) + 1) + ". " + cur().title;
+    var n = STEPS.filter(function (s) { return S.done[s.id]; }).length;
+    $("#progText").textContent = n + " de " + STEPS.length;
+    $("#barFill").style.width = (n / STEPS.length * 100) + "%";
+  }
+
+  function renderStage() {
+    var s = cur(), i = idx(s.id);
+    var tagName = { chat: "Chat", code: "Code", chrome: "Chrome", meet: "Reuniones", prep: "Guía" }[s.tag];
+    var how = typeof s.how === "function" ? s.how() : s.how;
+    var h = '<article class="card">' +
+      '<div class="meta"><span class="chip ' + s.tag + '">' + tagName + '</span><span class="chip time">' + s.time + "</span><span>Paso " + (i + 1) + " de " + STEPS.length + "</span></div>" +
+      "<h2>" + esc(s.title) + '</h2><p class="why">' + s.why + "</p>";
+    if (how) h += '<ol class="how">' + how.map(function (x) { return "<li><span>" + x + "</span></li>"; }).join("") + "</ol>";
+    if (s.body) h += s.body();
+    if (s.copies) h += s.copies.map(function (c) { return copyBlock(c.id, c.label); }).join("");
+    if (s.note) h += '<div class="note ' + s.note.kind + '"><b>' + s.note.title + "</b><span>" + s.note.text + "</span></div>";
+    var isDone = !!S.done[s.id];
+    h += '<div class="nav">' +
+      (i > 0 ? '<button type="button" class="btn" data-nav="-1">← Anterior</button>' : "") +
+      '<span class="spacer"></span>' +
+      (s.id !== "cierre" ? '<button type="button" class="btn" data-skip="' + s.id + '">' + (S.skip[s.id] ? "Quitar “otro día”" : "Para otro día") + "</button>" : "") +
+      (i < STEPS.length - 1
+        ? '<button type="button" class="btn primary" data-donext="' + s.id + '">' + (isDone ? "Siguiente →" : "Hecho, siguiente →") + "</button>"
+        : '<button type="button" class="btn primary" data-finish="1">' + (isDone ? "¡Terminado!" : "Terminar") + "</button>") +
+      '</div><p class="hint">Flechas ← → para moverte</p></article>';
+    $("#stage").innerHTML = h;
+    $("#askCtx").textContent = "Se incluye el paso en el que estás: " + s.title + ".";
+    renderSugg();
+  }
+
+  function render() { renderRail(); renderStage(); }
+
+  function go(id, focus) {
+    S.current = id;
+    try { history.replaceState(null, "", "#" + id); } catch (e) {}
+    closeAsk();
+    render(); save();
+    $("#rail").classList.remove("show"); $("#railToggle").setAttribute("aria-expanded", "false");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (focus !== false) { var h2 = $("#stage h2"); if (h2) { h2.setAttribute("tabindex", "-1"); h2.focus({ preventScroll: true }); } }
+  }
+
+  /* ---------- Guardado (solo en este navegador) ---------- */
+  function merge(o) { if (o && typeof o === "object") Object.keys(DEFAULTS).forEach(function (k) { if (k in o) S[k] = o[k]; }); }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function load() { try { var v = localStorage.getItem(KEY); if (v) merge(JSON.parse(v)); } catch (e) {} }
+
+  /* ---------- Copiar ---------- */
+  function toast(msg) {
+    var el = $("#toast"); el.textContent = msg; el.hidden = false;
+    clearTimeout(toast.t); toast.t = setTimeout(function () { el.hidden = true; }, 2200);
+  }
+  function writeClip(text, ok, fail) {
+    try { navigator.clipboard.writeText(text).then(ok, fail); } catch (e) { fail(); }
+  }
+  function copyText(id, btn) {
+    writeClip(TEXT[id](), function () {
+      btn.textContent = "Copiado ✓"; toast("Copiado. Ahora pégalo en Claude.");
+      setTimeout(function () { btn.textContent = "Copiar"; }, 2000);
+    }, function () {
+      var pre = btn.closest(".copy").querySelector("pre");
+      var r = document.createRange(); r.selectNodeContents(pre);
+      var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      toast("Texto seleccionado: pulsa Ctrl + C");
     });
-    return out.length > 1 ? out.join('\n') : '';
   }
 
-  var status = document.getElementById('status');
-  function say(msg) { status.textContent = msg; }
-
-  document.getElementById('wa').addEventListener('click', function () {
-    var text = summary();
-    if (!text) { say('Todavía no has marcado nada.'); return; }
-    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
-    say('Abriendo WhatsApp…');
-  });
-
-  document.getElementById('copy').addEventListener('click', function () {
-    var text = summary();
-    if (!text) { say('Todavía no has marcado nada.'); return; }
-    function fallback() {
-      var ta = document.createElement('textarea');
-      ta.value = text; ta.setAttribute('readonly', '');
-      ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); say('Copiado. Pégalo en WhatsApp o en un correo.'); }
-      catch (e) { say('No se ha podido copiar automáticamente.'); }
-      document.body.removeChild(ta);
+  /* ---------- Eventos ---------- */
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button, a"); if (!b) return;
+    var d = b.dataset;
+    if (d.go) { e.preventDefault(); return go(d.go); }
+    if (d.nav) { var j = idx(S.current) + Number(d.nav); if (STEPS[j]) go(STEPS[j].id); return; }
+    if (d.donext) { S.done[d.donext] = true; delete S.skip[d.donext]; var k = idx(d.donext) + 1; return go(STEPS[k].id); }
+    if (d.finish) { S.done.cierre = true; render(); save(); toast("¡Listo! Ya lo tienes montado."); return; }
+    if (d.skip) { if (S.skip[d.skip]) delete S.skip[d.skip]; else { S.skip[d.skip] = true; delete S.done[d.skip]; } render(); save(); return; }
+    if (d.reset) {
+      if (!confirm("¿Borrar lo marcado en esta guía y empezar de cero? No afecta a nada de tu Claude.")) return;
+      S = JSON.parse(JSON.stringify(DEFAULTS)); save(); return go("inicio");
     }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        say('Copiado. Pégalo en WhatsApp o en un correo.');
-      }, fallback);
-    } else { fallback(); }
+    if (d.copy) return copyText(d.copy, b);
+    if (d.more) { var w = b.closest(".copy"); w.classList.toggle("open"); b.textContent = w.classList.contains("open") ? "Ver menos" : "Ver todo"; return; }
+    if (d.set) { S[d.set] = d.val; renderStage(); save(); return; }
+    if (d.topic) { var p = S.temas.indexOf(d.topic); if (p >= 0) S.temas.splice(p, 1); else S.temas.push(d.topic); renderStage(); save(); return; }
+    if (d.c2) { S.c2tab = d.c2; renderStage(); save(); return; }
   });
+  var inT = null;
+  document.addEventListener("input", function (e) {
+    var el = e.target; if (!el.dataset.input) return;
+    S[el.dataset.input] = el.value;
+    document.querySelectorAll("[data-copy-wrap]").forEach(function (w) { w.querySelector("pre").textContent = TEXT[w.dataset.copyWrap](); });
+    clearTimeout(inT); inT = setTimeout(save, 400);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest("input, textarea, select") || $("#drawer").classList.contains("open")) { if (e.key === "Escape") closeAsk(); return; }
+    var j = idx(S.current);
+    if (e.key === "ArrowRight" && STEPS[j + 1]) go(STEPS[j + 1].id, false);
+    if (e.key === "ArrowLeft" && STEPS[j - 1]) go(STEPS[j - 1].id, false);
+  });
+  $("#railToggle").addEventListener("click", function () {
+    var r = $("#rail"); r.classList.toggle("show"); this.setAttribute("aria-expanded", r.classList.contains("show"));
+  });
+  window.addEventListener("hashchange", function () { var h = location.hash.slice(1); if (h && h !== S.current && STEPS.some(function (s) { return s.id === h; })) go(h, false); });
+
+  /* ---------- ¿Dudas? Prepara la pregunta para su propio Claude ---------- */
+  function openAsk() { $("#drawer").classList.add("open"); $("#drawer").setAttribute("aria-hidden", "false"); $("#scrim").hidden = false; setTimeout(function () { $("#askInput").focus(); }, 50); }
+  function closeAsk() { $("#drawer").classList.remove("open"); $("#drawer").setAttribute("aria-hidden", "true"); $("#scrim").hidden = true; }
+  $("#askOpen").addEventListener("click", openAsk);
+  $("#askClose").addEventListener("click", closeAsk);
+  $("#scrim").addEventListener("click", closeAsk);
+
+  var SUGG = {
+    entrar: ["No encuentro la pestaña Code en la app", "¿Puedo usar Claude en el móvil también?"],
+    gasto: ["No encuentro dónde se desactivan los usage credits", "¿Qué pasa si se acaba el uso del plan?"],
+    ayuda: ["¿Cómo renombro o fijo un chat?", "¿Este chat recuerda lo que le pregunté otro día?"],
+    reglas: ["No veo el campo de preferencias", "¿Las reglas valen también en Code?"],
+    memoria: ["¿Cómo veo y corrijo lo que recuerdas de mí?", "No aparece el botón de importar"],
+    conectores: ["El conector de Google da error", "¿Claude puede enviar correos solo?"],
+    proyectos: ["¿Puedo cambiar las instrucciones después?", "¿Qué archivos me conviene subir a cada proyecto?"],
+    chrome: ["Dices que no puedes instalarlo, ¿qué hago?", "¿Qué permisos le estoy dando a la extensión?"],
+    web1: ["No se abre el panel lateral de Claude en Chrome", "¿Puede leer páginas en las que tengo sesión iniciada?"],
+    web2: ["Me pide verificar que no soy un robot", "¿Puede pujar o registrarse sin que yo lo sepa?"],
+    carpeta: ["No encuentro la pestaña Code", "Me pide instalar Git, ¿es seguro?"],
+    lanzar: ["Me pide permiso para algo que no entiendo", "¿Cuánto va a tardar?"],
+    despues: ["¿Cómo deshago los cambios si algo sale mal?", "Se ha quedado parado, ¿cómo lo retomo?"],
+    noticias: ["No veo cómo programar la tarea", "¿Las tareas programadas gastan mucho uso del plan?"],
+    agenda: ["¿Puede leer también Outlook?", "¿Puede cambiarme citas?"],
+    traduccion: ["¿Cuál me conviene si mis reuniones son en inglés?", "¿Cómo pido el consentimiento para transcribir una reunión?"],
+    actas: ["El archivo de la transcripción es muy largo, ¿cómo lo hago?", "¿Puedes comparar esta reunión con la anterior?"]
+  };
+  function renderSugg() {
+    var list = SUGG[S.current] || ["No encuentro el menú que dice la guía", "¿Esto tiene algún coste extra?"];
+    $("#sugg").innerHTML = list.map(function (q) { return '<button type="button" data-q="' + esc(q) + '">' + esc(q) + "</button>"; }).join("");
+  }
+  $("#sugg").addEventListener("click", function (e) { var b = e.target.closest("[data-q]"); if (b) { $("#askInput").value = b.dataset.q; $("#askInput").focus(); } });
+
+  function stepText(s) {
+    var how = typeof s.how === "function" ? s.how() : (s.how || []);
+    var tmp = document.createElement("div");
+    tmp.innerHTML = s.why + " " + how.map(function (x, n) { return (n + 1) + ". " + x; }).join(" ");
+    return tmp.textContent;
+  }
+  function questionText(q) {
+    var s = cur();
+    return "Duda mientras configuro Claude con mi guía paso a paso (uso Windows y la app de escritorio).\n\n" +
+      "Estoy en el paso \"" + s.title + "\": " + stepText(s) + "\n\n" +
+      "Mi duda: " + q + "\n\n" +
+      "Contéstame corto y con pasos numerados. Si no sabes con seguridad cómo se llama un menú o un botón, dímelo y explícame cómo encontrarlo.";
+  }
+  $("#askForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var q = $("#askInput").value.trim();
+    if (!q) { $("#askInput").focus(); toast("Escribe primero tu duda."); return; }
+    var text = questionText(q), btn = $("#askSend");
+    writeClip(text, function () {
+      btn.textContent = "Copiado ✓"; toast("Copiado. Pégalo en tu chat “Ayuda con Claude”.");
+      setTimeout(function () { btn.textContent = "Copiar para Claude"; }, 2200);
+    }, function () {
+      $("#askInput").value = text; $("#askInput").select();
+      toast("Texto seleccionado: pulsa Ctrl + C");
+    });
+  });
+
+  /* ---------- Arranque ---------- */
+  load();
+  var h0 = location.hash.slice(1);
+  if (h0 && STEPS.some(function (s) { return s.id === h0; })) S.current = h0;
+  if (!STEPS.some(function (s) { return s.id === S.current; })) S.current = "inicio";
+  render();
 })();
 </script>
 </body>
